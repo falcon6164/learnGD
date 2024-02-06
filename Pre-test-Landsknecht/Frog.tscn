@@ -1,0 +1,146 @@
+[gd_scene load_steps=22 format=3 uid="uid://cwya62hesuvq5"]
+
+[ext_resource type="Texture2D" uid="uid://b3gokd15c24k5" path="res://img/Sprites/Frog/frog-idle.png" id="1_5vneu"]
+[ext_resource type="Script" path="res://Frog.gd" id="1_v0a0x"]
+[ext_resource type="Texture2D" uid="uid://b4jei5upskqwd" path="res://img/Sprites/Frog/frog-jump.png" id="2_ogwej"]
+[ext_resource type="Texture2D" uid="uid://tub0aev0pvaf" path="res://img/Sprites/enemy-death/enemy-death-1.png" id="2_wr2ca"]
+[ext_resource type="Texture2D" uid="uid://dpgp36wphwy44" path="res://img/Sprites/enemy-death/enemy-death-2.png" id="3_j88g1"]
+[ext_resource type="Texture2D" uid="uid://dfjvktoh0tr7p" path="res://img/Sprites/enemy-death/enemy-death-3.png" id="4_ha3m2"]
+[ext_resource type="Texture2D" uid="uid://rwsw4181k012" path="res://img/Sprites/enemy-death/enemy-death-4.png" id="5_vl6x5"]
+[ext_resource type="Texture2D" uid="uid://bm6r1w6b7y8js" path="res://img/Sprites/enemy-death/enemy-death-5.png" id="6_s5y6e"]
+[ext_resource type="Texture2D" uid="uid://cq3ccb5lbfpwf" path="res://img/Sprites/enemy-death/enemy-death-6.png" id="7_efeuo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx6yt"]
+atlas = ExtResource("1_5vneu")
+region = Rect2(0, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehhg4"]
+atlas = ExtResource("1_5vneu")
+region = Rect2(35, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iryp6"]
+atlas = ExtResource("1_5vneu")
+region = Rect2(70, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cpk1"]
+atlas = ExtResource("1_5vneu")
+region = Rect2(105, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5e31"]
+atlas = ExtResource("2_ogwej")
+region = Rect2(0, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5godn"]
+atlas = ExtResource("2_ogwej")
+region = Rect2(35, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_od0vb"]
+atlas = ExtResource("2_ogwej")
+region = Rect2(70, 0, 35, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k4sbt"]
+animations = [{
+"frames": [{
+"duration": 0.6,
+"texture": ExtResource("2_wr2ca")
+}, {
+"duration": 0.5,
+"texture": ExtResource("3_j88g1")
+}, {
+"duration": 0.6,
+"texture": ExtResource("4_ha3m2")
+}, {
+"duration": 0.6,
+"texture": ExtResource("5_vl6x5")
+}, {
+"duration": 0.7,
+"texture": ExtResource("6_s5y6e")
+}, {
+"duration": 0.7,
+"texture": ExtResource("7_efeuo")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx6yt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehhg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iryp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cpk1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5e31")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5godn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_od0vb")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cf85t"]
+size = Vector2(17, 14)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7a2a7"]
+radius = 119.038
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rvxfu"]
+size = Vector2(13.3166, 10.6614)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ht5p"]
+size = Vector2(18.7021, 12.4863)
+
+[node name="Frog" type="CharacterBody2D"]
+scale = Vector2(1.60881, 1.60881)
+script = ExtResource("1_v0a0x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_k4sbt")
+animation = &"idle"
+
+[node name="MainBody" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 4)
+shape = SubResource("RectangleShape2D_cf85t")
+
+[node name="Vision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
+visible = false
+shape = SubResource("CircleShape2D_7a2a7")
+
+[node name="HitHeadArea" type="Area2D" parent="."]
+
+[node name="HitHead" type="CollisionShape2D" parent="HitHeadArea"]
+position = Vector2(-0.621578, -1.24316)
+shape = SubResource("RectangleShape2D_rvxfu")
+debug_color = Color(0, 0.647059, 0.207843, 0.419608)
+
+[node name="PlayerCollision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCollision"]
+position = Vector2(-0.621578, 4.35105)
+shape = SubResource("RectangleShape2D_8ht5p")
+debug_color = Color(0.976471, 0.0156863, 0.407843, 0.419608)
+
+[connection signal="body_entered" from="Vision" to="." method="_on_vision_body_entered"]
+[connection signal="body_exited" from="Vision" to="." method="_on_vision_body_exited"]
+[connection signal="body_entered" from="HitHeadArea" to="." method="_on_hit_head_area_body_entered"]
+[connection signal="body_exited" from="HitHeadArea" to="." method="_on_hit_head_area_body_exited"]
+[connection signal="body_entered" from="PlayerCollision" to="." method="_on_player_collision_body_entered"]

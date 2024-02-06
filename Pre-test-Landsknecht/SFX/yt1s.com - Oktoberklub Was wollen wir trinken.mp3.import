@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d1jdhmja6tsdb"
+path="res://.godot/imported/yt1s.com - Oktoberklub Was wollen wir trinken.mp3-d9e2a2b05b4af881c2c2c782450d5021.mp3str"
+
+[deps]
+
+source_file="res://SFX/yt1s.com - Oktoberklub Was wollen wir trinken.mp3"
+dest_files=["res://.godot/imported/yt1s.com - Oktoberklub Was wollen wir trinken.mp3-d9e2a2b05b4af881c2c2c782450d5021.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

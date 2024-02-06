@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://c43vyen2rfyxd"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_n0lrb"]
+[ext_resource type="PackedScene" uid="uid://ffixqbmrg68u" path="res://bg.tscn" id="2_ks3ao"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_n0lrb")
+
+[node name="PlayBtn" type="Button" parent="."]
+offset_left = 466.0
+offset_top = 148.0
+offset_right = 756.0
+offset_bottom = 260.0
+tooltip_text = "What else can it be?"
+text = "Start"
+
+[node name="ExitBtn" type="Button" parent="."]
+offset_left = 466.0
+offset_top = 362.0
+offset_right = 756.0
+offset_bottom = 474.0
+tooltip_text = "Quit Game"
+text = "Exit"
+
+[node name="BG" parent="." instance=ExtResource("2_ks3ao")]
+
+[connection signal="pressed" from="PlayBtn" to="." method="_on_play_btn_pressed"]
+[connection signal="pressed" from="ExitBtn" to="." method="_on_exit_btn_pressed"]

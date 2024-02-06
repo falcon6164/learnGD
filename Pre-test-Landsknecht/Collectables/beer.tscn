@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://chjtwkyy1c7c0"]
+
+[ext_resource type="Texture2D" uid="uid://b4aft6qhec7au" path="res://img/beer.png" id="1_dbk1r"]
+[ext_resource type="Script" path="res://Collectables/beer.gd" id="1_qklkv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xsrf5"]
+radius = 44.7214
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oo4x0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dbk1r")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Beer" type="Area2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_qklkv")
+
+[node name="collectbox" type="CollisionShape2D" parent="."]
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_xsrf5")
+
+[node name="beersprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_oo4x0")
+animation = &"idle"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

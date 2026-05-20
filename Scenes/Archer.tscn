@@ -1,0 +1,155 @@
+[gd_scene load_steps=20 format=3 uid="uid://cmtreiedb6qvj"]
+
+[ext_resource type="Texture2D" uid="uid://d3p7ui3d67bhc" path="res://Sprites/Cute_Fantasy_Characters/Knights/Archer.png" id="1_8fat0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2xvuy"]
+size = Vector2(15.4375, 22.125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0m2m6"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(0, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7f8h"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(48, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0tvs"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(96, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcrf7"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(144, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f2ob8"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(192, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uq7em"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(240, 336, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ch2u"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(0, 432, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bx8el"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(48, 432, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re3vr"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(96, 432, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mw85c"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(144, 432, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cy3i"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bleys"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rt0ov"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4c8r"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8pdv"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j000u"]
+atlas = ExtResource("1_8fat0")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j784g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0m2m6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7f8h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0tvs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcrf7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2ob8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uq7em")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ch2u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bx8el")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re3vr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mw85c")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5cy3i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bleys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rt0ov")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4c8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i8pdv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j000u")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Archer" type="Node2D"]
+scale = Vector2(2, 2)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-2.28125, 1.9375)
+shape = SubResource("RectangleShape2D_2xvuy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-1, -5)
+sprite_frames = SubResource("SpriteFrames_j784g")
+animation = &"dead"
+frame_progress = 0.332474
+flip_h = true
+
+[node name="Area2D" type="Area2D" parent="."]

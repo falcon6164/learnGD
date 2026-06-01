@@ -1,11 +1,11 @@
 extends CharacterBody2D
 
 #基礎數值
-@export var MoveSpeed: int = 80
-@export var HP: int = 15
+@export var MoveSpeed: int = 40
+@export var HP: int = 28
 @export var Damage: int = 1
-@export var KnockbackRecovery: float = 240.0
-@export var Experience: int = 10
+@export var KnockbackRecovery: float = 600.0
+@export var Experience: int = 12
 @export var Gold: int = 10
 var damageable: bool = true
 #隨關卡提升的升級幅度 (百分比?)
@@ -17,7 +17,6 @@ var damageable: bool = true
 @onready var animation = $AnimatedSprite2D
 @onready var direction = 1
 #狀態機
-#TODO: get_set
 enum States {idle, move, dead}
 @onready var current_state: States = States.idle
 

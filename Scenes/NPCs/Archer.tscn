@@ -1,9 +1,44 @@
-[gd_scene load_steps=20 format=3 uid="uid://cmtreiedb6qvj"]
+[gd_scene load_steps=21 format=3 uid="uid://cmtreiedb6qvj"]
 
 [ext_resource type="Texture2D" uid="uid://d3p7ui3d67bhc" path="res://Sprites/Cute_Fantasy_Characters/Knights/Archer.png" id="1_8fat0"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2xvuy"]
-size = Vector2(15.4375, 22.125)
+[sub_resource type="GDScript" id="GDScript_eulrj"]
+script/source = "extends CharacterBody2D
+
+@export var Damage = 9
+@export var ReloadSpeed: float = 2.0
+@export var Knockback: float = 20.0
+
+#攻擊投射物等
+var arrow = preload(\"res://Scenes/Attacks/arrow.tscn\")
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+func _process(_delta):
+	
+	#按下攻擊鍵後的動作
+	if Input.is_action_just_pressed(\"Attack\"):
+		
+		#根據滑鼠點擊的位置以及角色所在位置算出角度
+		var mouse_position = get_global_mouse_position()
+		var rad = global_position.angle_to_point(mouse_position) #angle_to_point 會回傳 radians
+		var angle = rad_to_deg(rad)
+		print(\"\\n\\nRadians: \", rad, \"\\nAngle: \", angle)
+		Attack(Damage, rad, angle)
+		
+		#print(\"Mouse position: \", mouse_position, \"Character Position: \", global_position, \"\\n Angle: \", angle, \"\\nRad: \", rad)
+
+# 生成攻擊物
+func Attack(dmg, rad, _angle):
+	var arrow_attack = arrow.instantiate()
+	arrow_attack.damage = dmg
+	arrow_attack.dir = rad
+	arrow_attack.pos= global_position
+	arrow_attack.knockback += Knockback
+	get_parent().add_child(arrow_attack)
+"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0m2m6"]
 atlas = ExtResource("1_8fat0")
@@ -135,21 +170,20 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Archer" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2xvuy"]
+size = Vector2(15.4375, 22.125)
+
+[node name="Archer" type="CharacterBody2D"]
 scale = Vector2(2, 2)
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(-2.28125, 1.9375)
-shape = SubResource("RectangleShape2D_2xvuy")
+script = SubResource("GDScript_eulrj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(-1, -5)
+position = Vector2(2, -8.5)
 sprite_frames = SubResource("SpriteFrames_j784g")
 animation = &"dead"
 frame_progress = 0.332474
 flip_h = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2xvuy")

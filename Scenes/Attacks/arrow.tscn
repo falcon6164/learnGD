@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://dygey03ubw2j2"]
+
+[ext_resource type="Texture2D" uid="uid://bjrccdaxr71ed" path="res://Sprites/feather.png" id="1_6nopk"]
+[ext_resource type="AudioStream" uid="uid://cdj2kpjuihn4p" path="res://Sounds/djartmusic-arrow-swish_03-306040.mp3" id="2_1exrw"]
+
+[sub_resource type="GDScript" id="GDScript_ocau0"]
+script/source = "class_name Projectiles
+extends CharacterBody2D
+
+var pos: Vector2
+var dir: float
+var speed: int = 900
+@export var damage: int
+@export var knockback: float = 60.0
+@export var HP: int = 1
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	global_position = pos
+	global_rotation += dir
+	$AudioStreamPlayer.play()
+	#print(\"damage: \", damage)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	if HP <= 0:
+		die()
+	#投射物移動
+	velocity = Vector2(speed, 0).rotated(dir)
+	move_and_slide()
+
+func die():
+	self.queue_free()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fnte2"]
+size = Vector2(622.108, 194.246)
+
+[node name="Arrow" type="CharacterBody2D" groups=["Projectiles"]]
+rotation = -2.35619
+collision_layer = 4
+collision_mask = 0
+script = SubResource("GDScript_ocau0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("1_6nopk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.0574204, 0.556161)
+rotation = 2.36728
+scale = Vector2(0.04, 0.04)
+shape = SubResource("RectangleShape2D_fnte2")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_1exrw")
+volume_db = -27.577

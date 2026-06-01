@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
 #基礎數值
-@export var MoveSpeed: int = 80
-@export var HP: int = 15
-@export var Damage: int = 1
-@export var KnockbackRecovery: float = 240.0
+@export var MoveSpeed: int = 50
+@export var HP: int = 30
+@export var Damage: int = 2
+@export var KnockbackRecovery: float = 200.0
 @export var Experience: int = 10
 @export var Gold: int = 10
 var damageable: bool = true

@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://cengafqi0f2m0"]
+
+[ext_resource type="Texture2D" uid="uid://cw0ojtvkf3kbs" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/UI_Frames.png" id="1_jie6b"]
+
+[resource]
+texture = ExtResource("1_jie6b")
+texture_margin_left = 14.0
+texture_margin_top = 14.0
+texture_margin_right = 14.0
+texture_margin_bottom = 14.0
+region_rect = Rect2(914.815, 4.69119, 42.0024, 40.6967)

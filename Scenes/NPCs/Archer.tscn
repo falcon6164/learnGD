@@ -1,6 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://cmtreiedb6qvj"]
+[gd_scene load_steps=32 format=3 uid="uid://cmtreiedb6qvj"]
 
 [ext_resource type="Texture2D" uid="uid://d3p7ui3d67bhc" path="res://Sprites/Cute_Fantasy_Characters/Knights/Archer.png" id="1_8fat0"]
+[ext_resource type="Texture2D" uid="uid://cxcqqalh48cee" path="res://Sprites/Cute_Fantasy_Characters/Weapons/Wooden_Bow.png" id="2_dfbqc"]
 
 [sub_resource type="GDScript" id="GDScript_eulrj"]
 script/source = "extends CharacterBody2D
@@ -8,6 +9,18 @@ script/source = "extends CharacterBody2D
 @export var Damage = 9
 @export var ReloadSpeed: float = 2.0
 @export var Knockback: float = 20.0
+@export var MaxChargeGauge: float = 100.0
+
+var ChargeGauge: float:
+	set(value):
+		ChargeGauge = clamp(value, 0, MaxChargeGauge)
+@export var ChargeSpeed: float = 40.0
+
+@onready var AttackTimer = $AttackTimer
+@onready var Weapon = $WeaponSprite
+
+enum States {idle, attack}
+@onready var current_state: States = States.idle
 
 #攻擊投射物等
 var arrow = preload(\"res://Scenes/Attacks/arrow.tscn\")
@@ -15,18 +28,33 @@ var arrow = preload(\"res://Scenes/Attacks/arrow.tscn\")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
-
+	ChargeGauge = 0.0
 func _process(_delta):
+	var mouse_position = get_global_mouse_position()
+	var rad = global_position.angle_to_point(mouse_position) #angle_to_point 會回傳 radians
+	var angle = rad_to_deg(rad)
 	
-	#按下攻擊鍵後的動作
-	if Input.is_action_just_pressed(\"Attack\"):
-		
+	#武器跟隨滑鼠位置旋轉
+	Weapon.rotation = rad
+	
+	
+	#按下攻擊鍵後的動作 蓄力攻擊
+	if Input.is_action_pressed(\"Attack\"):
+		if current_state != States.attack:
+			current_state = States.attack
+			Weapon.play(\"attack_charge\", 1.0)
+	if ChargeGauge <= MaxChargeGauge:
+		ChargeGauge += ChargeSpeed * _delta
+	if Input.is_action_just_released(\"Attack\"):
 		#根據滑鼠點擊的位置以及角色所在位置算出角度
-		var mouse_position = get_global_mouse_position()
-		var rad = global_position.angle_to_point(mouse_position) #angle_to_point 會回傳 radians
-		var angle = rad_to_deg(rad)
-		print(\"\\n\\nRadians: \", rad, \"\\nAngle: \", angle)
-		Attack(Damage, rad, angle)
+		#var mouse_position = get_global_mouse_position()
+		#var rad = global_position.angle_to_point(mouse_position) #angle_to_point 會回傳 radians
+		#var angle = rad_to_deg(rad)
+		
+		print(\"\\n\\nRadians: \", rad, \"\\nAngle: \", angle, \"\\nChargeGauge: \", ChargeGauge)
+		Weapon.play(\"attack_release\")
+		Attack((Damage * (1 + (ChargeGauge / 100))), rad, angle)
+		ChargeGauge = 0.0
 		
 		#print(\"Mouse position: \", mouse_position, \"Character Position: \", global_position, \"\\n Angle: \", angle, \"\\nRad: \", rad)
 
@@ -38,6 +66,12 @@ func Attack(dmg, rad, _angle):
 	arrow_attack.pos= global_position
 	arrow_attack.knockback += Knockback
 	get_parent().add_child(arrow_attack)
+
+
+func _on_weapon_sprite_animation_finished():
+		if Weapon.animation == \"attack_release\":
+			Weapon.pause()
+			current_state = States.idle
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0m2m6"]
@@ -173,6 +207,80 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2xvuy"]
 size = Vector2(15.4375, 22.125)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_arn2n"]
+atlas = ExtResource("2_dfbqc")
+region = Rect2(0, 40, 32, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bdtk"]
+atlas = ExtResource("2_dfbqc")
+region = Rect2(32, 40, 32, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qunu"]
+atlas = ExtResource("2_dfbqc")
+region = Rect2(64, 40, 32, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j461d"]
+atlas = ExtResource("2_dfbqc")
+region = Rect2(96, 40, 32, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjmy8"]
+atlas = ExtResource("2_dfbqc")
+region = Rect2(128, 40, 32, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wti8r"]
+atlas = ExtResource("2_dfbqc")
+region = Rect2(160, 40, 32, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4ncm"]
+atlas = ExtResource("2_dfbqc")
+region = Rect2(0, 40, 38, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8fm7t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_arn2n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2bdtk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qunu")
+}],
+"loop": false,
+"name": &"attack_charge",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j461d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gjmy8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wti8r")
+}],
+"loop": false,
+"name": &"attack_release",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4ncm")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5id0f"]
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_518r1"]
+bg_color = Color(0.305882, 0.709804, 0, 1)
+corner_detail = 4
+
 [node name="Archer" type="CharacterBody2D"]
 scale = Vector2(2, 2)
 script = SubResource("GDScript_eulrj")
@@ -182,8 +290,28 @@ texture_filter = 1
 position = Vector2(2, -8.5)
 sprite_frames = SubResource("SpriteFrames_j784g")
 animation = &"dead"
-frame_progress = 0.332474
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_2xvuy")
+
+[node name="WeaponSprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+rotation = 3.14159
+sprite_frames = SubResource("SpriteFrames_8fm7t")
+animation = &"attack_charge"
+frame = 2
+frame_progress = 1.0
+
+[node name="AttackTimer" type="Timer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -8.0
+offset_top = -19.0
+offset_right = 8.0
+offset_bottom = -13.0
+theme_override_styles/background = SubResource("StyleBoxFlat_5id0f")
+theme_override_styles/fill = SubResource("StyleBoxFlat_518r1")
+show_percentage = false
+
+[connection signal="animation_finished" from="WeaponSprite" to="." method="_on_weapon_sprite_animation_finished"]

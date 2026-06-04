@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf0xvlrysdrxv"]
+
+[ext_resource type="Script" path="res://UpgradeDB.gd" id="1_2kisb"]
+
+[node name="ArcherUpgradeDB" type="Node"]
+script = ExtResource("1_2kisb")

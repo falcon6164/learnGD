@@ -16,8 +16,8 @@ var damageable: bool = true
 
 @onready var animation = $AnimatedSprite2D
 @onready var direction = 1
+@onready var Player = get_tree().get_first_node_in_group("Player")
 #狀態機
-#TODO: get_set
 enum States {idle, move, dead}
 @onready var current_state: States = States.idle
 
@@ -45,12 +45,11 @@ func take_damage(source_dmg: int, source_knockback: float):
 		
 		if HP <= 0:
 			damageable = false
-			print("HP: ", HP)
 			die()
 
 
 func die():
-		
+	Player.Get_Loot(Experience, Gold)
 	direction = 0
 	velocity.x = 0
 	current_state = States.dead

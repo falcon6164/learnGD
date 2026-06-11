@@ -1,7 +1,8 @@
-[gd_scene load_steps=32 format=3 uid="uid://cmtreiedb6qvj"]
+[gd_scene load_steps=33 format=3 uid="uid://cmtreiedb6qvj"]
 
 [ext_resource type="Texture2D" uid="uid://d3p7ui3d67bhc" path="res://Sprites/Cute_Fantasy_Characters/Knights/Archer.png" id="1_8fat0"]
 [ext_resource type="Texture2D" uid="uid://cxcqqalh48cee" path="res://Sprites/Cute_Fantasy_Characters/Weapons/Wooden_Bow.png" id="2_dfbqc"]
+[ext_resource type="Script" path="res://Scenes/Attacks/ReloadBar.gd" id="3_51y8v"]
 
 [sub_resource type="GDScript" id="GDScript_eulrj"]
 script/source = "extends CharacterBody2D
@@ -10,6 +11,12 @@ script/source = "extends CharacterBody2D
 @export var ReloadSpeed: float = 2.0
 @export var Knockback: float = 20.0
 @export var MaxChargeGauge: float = 100.0
+var CurrentExp: int
+var CurrentGold: int
+var CurrentLevel: int
+var Attackable: bool
+signal AttackReady()
+signal AttackFired()
 
 var ChargeGauge: float:
 	set(value):
@@ -18,17 +25,25 @@ var ChargeGauge: float:
 
 @onready var AttackTimer = $AttackTimer
 @onready var Weapon = $WeaponSprite
+@onready var ReloadBar = $ReloadBar
 
 enum States {idle, attack}
 @onready var current_state: States = States.idle
 
-#攻擊投射物等
-var arrow = preload(\"res://Scenes/Attacks/arrow.tscn\")
+#預載會用到的外部場景
+var arrow = preload(\"res://Scenes/Attacks/arrow.tscn\") #攻擊投射物場景
+var LvlUI = preload(\"res://Scenes/leveling_ui.tscn\") #升級選項UI介面
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
 	ChargeGauge = 0.0
+	Attackable = true
+
+#處理輸入事件	
+func _input(event):
+	if Input.is_action_just_pressed(\"Debug\"):
+		LevelUp()
+
 func _process(_delta):
 	var mouse_position = get_global_mouse_position()
 	var rad = global_position.angle_to_point(mouse_position) #angle_to_point 會回傳 radians
@@ -37,29 +52,28 @@ func _process(_delta):
 	#武器跟隨滑鼠位置旋轉
 	Weapon.rotation = rad
 	
-	
 	#按下攻擊鍵後的動作 蓄力攻擊
 	if Input.is_action_pressed(\"Attack\"):
-		if current_state != States.attack:
-			current_state = States.attack
-			Weapon.play(\"attack_charge\", 1.0)
-	if ChargeGauge <= MaxChargeGauge:
-		ChargeGauge += ChargeSpeed * _delta
+		if Attackable:
+			if current_state != States.attack:
+				current_state = States.attack
+				Weapon.play(\"attack_charge\", 1.0)
+		if ChargeGauge <= MaxChargeGauge:
+			ChargeGauge += ChargeSpeed * _delta
 	if Input.is_action_just_released(\"Attack\"):
 		#根據滑鼠點擊的位置以及角色所在位置算出角度
-		#var mouse_position = get_global_mouse_position()
-		#var rad = global_position.angle_to_point(mouse_position) #angle_to_point 會回傳 radians
-		#var angle = rad_to_deg(rad)
-		
-		print(\"\\n\\nRadians: \", rad, \"\\nAngle: \", angle, \"\\nChargeGauge: \", ChargeGauge)
-		Weapon.play(\"attack_release\")
-		Attack((Damage * (1 + (ChargeGauge / 100))), rad, angle)
-		ChargeGauge = 0.0
-		
-		#print(\"Mouse position: \", mouse_position, \"Character Position: \", global_position, \"\\n Angle: \", angle, \"\\nRad: \", rad)
+	
+		#print(\"\\n\\nRadians: \", rad, \"\\nAngle: \", angle, \"\\nChargeGauge: \", ChargeGauge)
+		if Attackable:
+			Weapon.play(\"attack_release\")
+			Attack((Damage * (1 + (ChargeGauge / 100))), rad, angle)
+			ChargeGauge = 0.0
+			Attackable = false
+			AttackTimer.start()
 
 # 生成攻擊物
 func Attack(dmg, rad, _angle):
+	emit_signal(\"AttackFired\")
 	var arrow_attack = arrow.instantiate()
 	arrow_attack.damage = dmg
 	arrow_attack.dir = rad
@@ -72,6 +86,38 @@ func _on_weapon_sprite_animation_finished():
 		if Weapon.animation == \"attack_release\":
 			Weapon.pause()
 			current_state = States.idle
+
+func LevelUp ():
+	get_parent().add_child(LvlUI.instantiate())
+	var LvlUI_Instance = get_tree().get_first_node_in_group(\"Leveling_UI\")
+	LvlUI_Instance.visible = true
+	get_parent().get_tree().paused = true
+
+func Get_Loot(Exp: int, Gold: int):
+	CurrentExp += Exp
+	CurrentGold += Gold
+	print(\"Exp: \", CurrentExp, \"Gold: \", CurrentGold)
+	if CurrentExp >= 100:
+		CurrentExp -= 100
+		CurrentLevel += 1
+		LevelUp()
+
+func UpgradePicked():
+	var LvlUI_Instance = get_tree().get_first_node_in_group(\"Leveling_UI\")
+	var Children = LvlUI_Instance.get_children()
+	for i in Children:
+		i.queue_free()
+	LvlUI_Instance.visible = false
+	get_parent().get_tree().paused = false
+	
+	print(\"Upgrade Picked\")
+
+
+func _on_attack_timer_timeout():
+	emit_signal(\"AttackReady\")
+	Attackable = true
+	ReloadBar.visible = false
+
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0m2m6"]
@@ -281,7 +327,7 @@ corner_detail = 4
 bg_color = Color(0.305882, 0.709804, 0, 1)
 corner_detail = 4
 
-[node name="Archer" type="CharacterBody2D"]
+[node name="Archer" type="CharacterBody2D" groups=["Player"]]
 scale = Vector2(2, 2)
 script = SubResource("GDScript_eulrj")
 
@@ -304,14 +350,20 @@ frame = 2
 frame_progress = 1.0
 
 [node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.4
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="ReloadBar" type="ProgressBar" parent="."]
 offset_left = -8.0
 offset_top = -19.0
 offset_right = 8.0
 offset_bottom = -13.0
 theme_override_styles/background = SubResource("StyleBoxFlat_5id0f")
 theme_override_styles/fill = SubResource("StyleBoxFlat_518r1")
+value = 100.0
 show_percentage = false
+script = ExtResource("3_51y8v")
 
+[connection signal="AttackFired" from="." to="ReloadBar" method="_on_archer_attack_fired"]
+[connection signal="AttackReady" from="." to="ReloadBar" method="_on_archer_attack_ready"]
 [connection signal="animation_finished" from="WeaponSprite" to="." method="_on_weapon_sprite_animation_finished"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

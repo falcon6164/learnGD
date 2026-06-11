@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c56lorpt2ucfk"]
+[gd_scene load_steps=21 format=3 uid="uid://c56lorpt2ucfk"]
 
 [ext_resource type="PackedScene" uid="uid://cmtreiedb6qvj" path="res://Scenes/NPCs/Archer.tscn" id="1_8hpkw"]
 [ext_resource type="Texture2D" uid="uid://7rne24mfka1n" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cliff_Tile.png" id="1_med0o"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dchbpmaicdf35" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Path_Tile.png" id="6_pq8ls"]
 [ext_resource type="AudioStream" uid="uid://b72ldvf8sso76" path="res://Music/geoffharvey-our-summer-in-provence-176854.mp3" id="7_ko3vv"]
 [ext_resource type="Texture2D" uid="uid://dworyvpoa0mue" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_MilitaryCamp/Military_Tents.png" id="7_myodk"]
+[ext_resource type="PackedScene" uid="uid://deav0mfxpo0q3" path="res://Scenes/hud.tscn" id="8_pkf18"]
 
 [sub_resource type="GDScript" id="GDScript_6neef"]
 resource_name = "Stage"
@@ -18,17 +19,20 @@ script/source = "extends Node2D
 var Damageable: bool = true
 var LvlUI = preload(\"res://Scenes/leveling_ui.tscn\")
 
+#信號
+signal DebugBtn
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#connect()
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if Input.is_action_just_pressed(\"Debug\"):
-		LevelUp()
-
+		pass
+		#LevelUp()
 
 func _on_defense_area_body_entered(body):
 	if body.is_in_group(\"Enemy\"):
@@ -52,14 +56,14 @@ func _on_border_left_body_exited(body):
 		body.queue_free()
 
 
-func LevelUp ():
-	get_tree().paused = true
-	var Leveling = LvlUI.instantiate()
-	get_parent().add_child(Leveling)
-	Leveling.get_path()
-	print(Leveling.get_path())
-	var tween = get_node(Leveling.get_path()).create_tween()
-	tween.tween_property(get_node(Leveling.get_path()), \"position\", Vector2(0, 30), 0.3)
+#func LevelUp ():
+#	get_tree().paused = true
+#	var Leveling = LvlUI.instantiate()
+#	get_parent().add_child(Leveling)
+#	Leveling.get_path()
+#	print(Leveling.get_path())
+#	var tween = get_node(Leveling.get_path()).create_tween()
+#	tween.tween_property(get_node(Leveling.get_path()), \"position\", Vector2(0, 30), 0.3)
 
 
 func _on_wave_timer_timeout():
@@ -855,6 +859,12 @@ process_mode = 3
 stream = ExtResource("7_ko3vv")
 volume_db = -13.833
 autoplay = true
+
+[node name="HUD" parent="." instance=ExtResource("8_pkf18")]
+offset_left = 48.0
+offset_top = 21.0
+offset_right = 112.0
+offset_bottom = 85.0
 
 [connection signal="body_entered" from="DefenseArea" to="." method="_on_defense_area_body_entered"]
 [connection signal="timeout" from="EnemySpawner/SpawnTimer" to="EnemySpawner" method="_on_spawn_timer_timeout"]

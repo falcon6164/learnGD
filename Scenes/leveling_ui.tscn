@@ -1,41 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://cf7l8a8g4nmab"]
+[gd_scene load_steps=2 format=3 uid="uid://cf7l8a8g4nmab"]
 
 [ext_resource type="Script" path="res://Scenes/leveling_ui.gd" id="1_lkx4n"]
-[ext_resource type="Texture2D" uid="uid://dply07h1g7lxe" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/UI_ALL.png" id="2_6cqts"]
-[ext_resource type="StyleBox" uid="uid://dc0gf61ahb3qs" path="res://Scenes/UI_style.tres" id="2_w4q3h"]
-[ext_resource type="Texture2D" uid="uid://bjrccdaxr71ed" path="res://Sprites/feather.png" id="2_web4c"]
-[ext_resource type="Script" path="res://Scenes/Options.gd" id="3_t7nfu"]
-[ext_resource type="FontFile" uid="uid://crv6w6pgyvmcn" path="res://Resources/Abbeyline.ttf" id="4_8jr7c"]
-[ext_resource type="StyleBox" uid="uid://cengafqi0f2m0" path="res://Scenes/leveling_button_ui.tres" id="4_mkpn2"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sc6io"]
-bg_color = Color(0.427451, 0.427451, 0.427451, 0.270588)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-corner_detail = 20
-
-[sub_resource type="LabelSettings" id="LabelSettings_ref0u"]
-font = ExtResource("4_8jr7c")
-font_size = 14
-font_color = Color(0.592157, 0.121569, 0, 1)
-outline_size = 2
-outline_color = Color(1, 1, 1, 0.462745)
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_i67rh"]
-color = Color(0.898039, 0.666667, 0.572549, 0.898039)
-grow_begin = 2.0
-grow_end = 2.0
-thickness = 2
-
-[sub_resource type="LabelSettings" id="LabelSettings_v5rjg"]
-line_spacing = -5.0
-font_size = 12
-font_color = Color(0, 0, 0, 1)
-shadow_size = 0
-
-[node name="LevelingUI" type="Control"]
+[node name="LevelingUI" type="Control" groups=["Leveling_UI"]]
 process_mode = 3
 z_index = 99
 layout_mode = 3
@@ -45,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lkx4n")
+metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
@@ -62,81 +30,4 @@ offset_right = 894.0
 offset_bottom = 507.0
 alignment = 1
 
-[node name="Options" type="Panel" parent="OptionsContainer"]
-texture_filter = 1
-custom_minimum_size = Vector2(200, 278)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("2_w4q3h")
-script = ExtResource("3_t7nfu")
-
-[node name="OptionName" type="Label" parent="OptionsContainer/Options"]
-z_index = 2
-texture_filter = 1
-layout_mode = 0
-offset_left = 50.0
-offset_top = 129.0
-offset_right = 146.0
-offset_bottom = 162.0
-scale = Vector2(1.00324, 0.811228)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0.721569, 0.721569, 0.721569, 1)
-theme_override_fonts/font = ExtResource("4_8jr7c")
-theme_override_font_sizes/font_size = 14
-theme_override_styles/normal = SubResource("StyleBoxFlat_sc6io")
-text = "Strafe"
-label_settings = SubResource("LabelSettings_ref0u")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="ItemIcon" type="Sprite2D" parent="OptionsContainer/Options"]
-position = Vector2(100.5, 78)
-scale = Vector2(0.100313, 0.09375)
-texture = ExtResource("2_web4c")
-
-[node name="Desc" type="Label" parent="OptionsContainer/Options"]
-process_mode = 3
-layout_mode = 0
-offset_left = 26.0
-offset_top = 172.0
-offset_right = 176.0
-offset_bottom = 287.0
-theme_override_styles/normal = SubResource("StyleBoxLine_i67rh")
-text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequuntur dicta culpa est fugiat aut vitae inventore enim dolor duis excepteur veniam voluptate et. Consequuntur vero non corrupti aut minim deserunt ea. Accusamus aute inventore sit dicta fugiat accusamus. At amet aliqua adipiscing et sit consectetur modi dolor sint. Ratione ipsam nesciunt adipisci non porro enim adipiscing duis sequi enim vitae fugiat reprehenderit. Ullamco dicta aute in veritatis numquam pariatur aut exercitation do reprehenderit. Elit deleniti occaecat incididunt reprehenderit nesciunt velit incididunt provident consequuntur.
-
-Ullamco sint ea eius ex deleniti anim adipiscing lorem ducimus non aspernatur. Non aspernatur numquam cupidatat et odio aut nesciunt adipiscing do anim culpa commodo inventore praesentium. Elit qui nemo quisquam deleniti ex voluptas magna dolor praesentium voluptas aspernatur modi quia porro. Adipisci ab quasi magnam ipsa aute ipsam ducimus magnam quisquam in. Qui proident aliquip id proident accusamus velit consequat ipsum cupiditate velit.
-
-Excepteur dolorem officia porro exercitation quaerat magna esse sit vero elit ut esse nostrud. Officia proident eius dignissimos eiusmod non illo. Reprehenderit dolor animi molestias aute sunt dignissimos corrupti esse et. Architecto quae ut neque explicabo vitae duis id labore obcaecati minim aspernatur. Voluptatum quos dolorem exercitation blanditiis molestias amet quas fugiat commodo. Praesentium ut fugiat do ipsam dolor sint magna quia enim."
-label_settings = SubResource("LabelSettings_v5rjg")
-horizontal_alignment = 1
-autowrap_mode = 2
-text_overrun_behavior = 2
-
-[node name="ButtonPanel" type="Panel" parent="OptionsContainer/Options"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 294.0
-offset_right = 185.0
-offset_bottom = 346.0
-theme_override_styles/panel = ExtResource("4_mkpn2")
-
-[node name="Button" type="Button" parent="OptionsContainer/Options/ButtonPanel"]
-layout_mode = 0
-offset_left = 11.0
-offset_top = 9.0
-offset_right = 159.0
-offset_bottom = 40.0
-text = "Item Button"
-
-[node name="Filigree" type="Sprite2D" parent="OptionsContainer/Options"]
-z_index = 1
-texture_filter = 1
-position = Vector2(97.0146, 129.896)
-rotation = 3.14159
-scale = Vector2(2.2, 2.2)
-texture = ExtResource("2_6cqts")
-region_enabled = true
-region_rect = Rect2(87.5922, 1279.46, 99.5527, 29.7632)
-
-[node name="ClickSound" type="AudioStreamPlayer2D" parent="OptionsContainer/Options"]
-position = Vector2(16, 294)
+[node name="LevelupSound" type="AudioStreamPlayer2D" parent="."]

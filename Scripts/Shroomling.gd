@@ -5,8 +5,8 @@ extends CharacterBody2D
 @export var HP: int = 30
 @export var Damage: int = 2
 @export var KnockbackRecovery: float = 200.0
-@export var Experience: int = 10
-@export var Gold: int = 10
+@export var Experience: int = 100
+@export var Gold: int = 100
 var damageable: bool = true
 #隨關卡提升的升級幅度 (百分比?)
 @export var SpeedScale = 1
@@ -16,6 +16,8 @@ var damageable: bool = true
 
 @onready var animation = $AnimatedSprite2D
 @onready var direction = 1
+@onready var Player = get_tree().get_first_node_in_group("Player")
+
 #狀態機
 #TODO: get_set
 enum States {idle, move, dead}
@@ -50,7 +52,7 @@ func take_damage(source_dmg: int, source_knockback: float):
 
 
 func die():
-		
+	Player.Get_Loot(Experience, Gold)	
 	direction = 0
 	velocity.x = 0
 	current_state = States.dead

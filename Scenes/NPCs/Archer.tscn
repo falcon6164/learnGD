@@ -1,48 +1,78 @@
-[gd_scene load_steps=33 format=3 uid="uid://cmtreiedb6qvj"]
+[gd_scene load_steps=35 format=3 uid="uid://cmtreiedb6qvj"]
 
 [ext_resource type="Texture2D" uid="uid://d3p7ui3d67bhc" path="res://Sprites/Cute_Fantasy_Characters/Knights/Archer.png" id="1_8fat0"]
 [ext_resource type="Texture2D" uid="uid://cxcqqalh48cee" path="res://Sprites/Cute_Fantasy_Characters/Weapons/Wooden_Bow.png" id="2_dfbqc"]
 [ext_resource type="Script" path="res://Scenes/Attacks/ReloadBar.gd" id="3_51y8v"]
+[ext_resource type="PackedScene" uid="uid://cf7l8a8g4nmab" path="res://Scenes/leveling_ui.tscn" id="3_57sak"]
+[ext_resource type="AudioStream" uid="uid://dvrufv85vgldo" path="res://Sounds/universfield-brass-144755.mp3" id="5_sq107"]
 
 [sub_resource type="GDScript" id="GDScript_eulrj"]
 script/source = "extends CharacterBody2D
 
-@export var Damage = 9
-@export var ReloadSpeed: float = 2.0
+#可升級的屬性
+@export var Damage: int = 9
 @export var Knockback: float = 20.0
 @export var MaxChargeGauge: float = 100.0
-var CurrentExp: int
-var CurrentGold: int
-var CurrentLevel: int
+@export var ChargeSpeed: float = 40.0
+@export var CurrentLevel: int:
+	set(value):
+		CurrentLevel = value
+		get_parent().UpdateLevel()
+@export var Additional_shots: int = 0
+@export var Piercing: int = 0
+@export var Multishot: int = 0
+
+#可升級的選項相關
+var collected_upgrades = []
+var upgrade_options = []
+
+var CurrentExp: int:
+	set(value):
+		CurrentExp = clamp(value, 0, 999)
+		emit_signal(\"ExpChanged\")
+var CurrentGold: int:
+	set(value):
+		CurrentGold = clamp(value, 0, 99999)
+		emit_signal(\"GoldChanged\")
+
 var Attackable: bool
 signal AttackReady()
 signal AttackFired()
+signal LevelUp()
+signal ExpChanged()
+signal GoldChanged()
 
 var ChargeGauge: float:
 	set(value):
 		ChargeGauge = clamp(value, 0, MaxChargeGauge)
-@export var ChargeSpeed: float = 40.0
 
 @onready var AttackTimer = $AttackTimer
 @onready var Weapon = $WeaponSprite
 @onready var ReloadBar = $ReloadBar
+@onready var LvlUI = $LevelingUI
+@onready var LevelUpSound = $LevelUpSound
+@onready var stage = get_parent()
 
 enum States {idle, attack}
 @onready var current_state: States = States.idle
 
 #預載會用到的外部場景
 var arrow = preload(\"res://Scenes/Attacks/arrow.tscn\") #攻擊投射物場景
-var LvlUI = preload(\"res://Scenes/leveling_ui.tscn\") #升級選項UI介面
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
+	#初始化各項數值
 	ChargeGauge = 0.0
 	Attackable = true
-
+	#將LevelUp 信號綁定到 Leveling_UI 的 GenerateOptions() 上
+	connect(\"LevelUp\", Callable(LvlUI, \"GenerateOptions\"))
+	#HUD 更新相關信號連接
+	connect(\"ExpChanged\", Callable(stage, \"UpdateEXP\"))
+	connect(\"GoldChanged\", Callable(stage, \"UpdateGold\"))
+	
 #處理輸入事件	
-func _input(event):
+func _input(_event):
 	if Input.is_action_just_pressed(\"Debug\"):
-		LevelUp()
+		emit_signal(\"LevelUp\")
 
 func _process(_delta):
 	var mouse_position = get_global_mouse_position()
@@ -79,6 +109,7 @@ func Attack(dmg, rad, _angle):
 	arrow_attack.dir = rad
 	arrow_attack.pos= global_position
 	arrow_attack.knockback += Knockback
+	arrow_attack.HP += Piercing
 	get_parent().add_child(arrow_attack)
 
 
@@ -87,37 +118,45 @@ func _on_weapon_sprite_animation_finished():
 			Weapon.pause()
 			current_state = States.idle
 
-func LevelUp ():
-	get_parent().add_child(LvlUI.instantiate())
-	var LvlUI_Instance = get_tree().get_first_node_in_group(\"Leveling_UI\")
-	LvlUI_Instance.visible = true
-	get_parent().get_tree().paused = true
-
 func Get_Loot(Exp: int, Gold: int):
 	CurrentExp += Exp
 	CurrentGold += Gold
 	print(\"Exp: \", CurrentExp, \"Gold: \", CurrentGold)
 	if CurrentExp >= 100:
 		CurrentExp -= 100
-		CurrentLevel += 1
-		LevelUp()
+		emit_signal(\"LevelUp\")
 
-func UpgradePicked():
-	var LvlUI_Instance = get_tree().get_first_node_in_group(\"Leveling_UI\")
-	var Children = LvlUI_Instance.get_children()
+func UpgradePicked(upgrade: String):
+	match upgrade:
+		\"Multishot\":
+			Multishot += 1
+		\"Piercing\":
+			Piercing += 1
+		\"Repair\":
+			get_parent().HP += 5
+		\"StrongBow\":
+			Damage += 2
+		\"Quickdraw\":
+			AttackTimer.wait_time *= 0.96
+	
+	var Children = LvlUI.get_node(\"OptionsContainer\").get_children()
 	for i in Children:
 		i.queue_free()
-	LvlUI_Instance.visible = false
+	LvlUI.visible = false
 	get_parent().get_tree().paused = false
-	
 	print(\"Upgrade Picked\")
-
 
 func _on_attack_timer_timeout():
 	emit_signal(\"AttackReady\")
 	Attackable = true
 	ReloadBar.visible = false
 
+func _on_level_up():
+	LevelUpSound.play()
+	LvlUI.visible = true
+	CurrentLevel += 1
+	get_parent().get_tree().paused = true
+	
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0m2m6"]
@@ -251,7 +290,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2xvuy"]
-size = Vector2(15.4375, 22.125)
+size = Vector2(23, 35)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_arn2n"]
 atlas = ExtResource("2_dfbqc")
@@ -328,42 +367,53 @@ bg_color = Color(0.305882, 0.709804, 0, 1)
 corner_detail = 4
 
 [node name="Archer" type="CharacterBody2D" groups=["Player"]]
-scale = Vector2(2, 2)
+position = Vector2(-2, -4)
 script = SubResource("GDScript_eulrj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(2, -8.5)
+position = Vector2(2, -11)
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_j784g")
 animation = &"dead"
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.5, 3.5)
 shape = SubResource("RectangleShape2D_2xvuy")
 
 [node name="WeaponSprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+position = Vector2(-2, 4)
 rotation = 3.14159
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_8fm7t")
-animation = &"attack_charge"
-frame = 2
-frame_progress = 1.0
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 0.4
 
 [node name="ReloadBar" type="ProgressBar" parent="."]
-offset_left = -8.0
-offset_top = -19.0
-offset_right = 8.0
-offset_bottom = -13.0
+offset_left = -9.0
+offset_top = -20.0
+offset_right = 14.0
+offset_bottom = -14.0
 theme_override_styles/background = SubResource("StyleBoxFlat_5id0f")
 theme_override_styles/fill = SubResource("StyleBoxFlat_518r1")
 value = 100.0
 show_percentage = false
 script = ExtResource("3_51y8v")
 
+[node name="LevelingUI" parent="." instance=ExtResource("3_57sak")]
+texture_filter = 2
+offset_left = 48.0
+offset_right = 48.0
+
+[node name="LevelUpSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("5_sq107")
+
 [connection signal="AttackFired" from="." to="ReloadBar" method="_on_archer_attack_fired"]
 [connection signal="AttackReady" from="." to="ReloadBar" method="_on_archer_attack_ready"]
+[connection signal="LevelUp" from="." to="." method="_on_level_up"]
 [connection signal="animation_finished" from="WeaponSprite" to="." method="_on_weapon_sprite_animation_finished"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

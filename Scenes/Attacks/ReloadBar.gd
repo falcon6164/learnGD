@@ -9,7 +9,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	value += AttackTimer.wait_time * 100 * delta / AttackTimer.wait_time
+	value += (max_value / AttackTimer.wait_time) * delta
+
 
 func _on_archer_attack_ready():
 	visible = false

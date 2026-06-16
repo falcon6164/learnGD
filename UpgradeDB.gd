@@ -1,34 +1,36 @@
 extends Node
 
-# const ICON_PATH = #技能的ICON圖示位置
-
 const UPGRADES = {
-	"MultiShot1": {
-		"icon": "技能圖示", 
-		"displayname": "Multishot", 
-		"description": "shoots additional arrow with lesser power.", 
+		"StrongBow": {
+		"icon": "res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/Damage.png", 
+		"displayname": "StrongBow", 
+		"description": "Strong Arms, stronger shots.", 
 		"Level": "Lv1", 
+		"Value": 1,
 		"prerequisite": []
 	},
-		"StrongBow1": {
-		"icon": "技能圖示", 
-		"displayname": "Strong Bow", 
-		"description": "Extends the power and speed while charging up a bowshot.", 
-		"Level": "Lv1", 
-		"prerequisite": []
-	},
-		"Piercing1": {
-		"icon": "技能圖示", 
+		"Piercing": {
+		"icon": "res://Sprites/feather.png", 
 		"displayname": "Piercing", 
 		"description": "Arrow will go through enemy.", 
-		"Level": "Lv1", 
+		"Level": "Lv1",
+		"Value" : 1,
 		"prerequisite": []
 	},
-		"Accuracy1": {
-		"icon": "技能圖示", 
-		"displayname": "Accuracy", 
-		"description": "The more you practice, the better the aim.", 
-		"Level": "Lv1", 
+		"Repair": {
+		"icon": "res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/Repair.png", 
+		"displayname": "Repair", 
+		"description": "\"I want this to be fixed by tomorrow morning, soldier! Chop chop!\"", 
+		"Level": "Lv1",
+		"Value": 1,
 		"prerequisite": []
 	},
+		"Quickdraw": {
+		"icon": "res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/Speed.png", 
+		"displayname": "Quickdraw", 
+		"description": "Shot faster. Practice.", 
+		"Level": "Lv1",
+		"Value": 1,
+		"prerequisite": []
+	}
 }

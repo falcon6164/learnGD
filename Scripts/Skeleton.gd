@@ -5,8 +5,8 @@ extends CharacterBody2D
 @export var HP: int = 15
 @export var Damage: int = 1
 @export var KnockbackRecovery: float = 240.0
-@export var Experience: int = 10
-@export var Gold: int = 10
+@export var Experience: int = 5
+@export var Gold: int = 3
 var damageable: bool = true
 #隨關卡提升的升級幅度 (百分比?)
 @export var SpeedScale = 1

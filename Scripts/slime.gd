@@ -5,8 +5,8 @@ extends CharacterBody2D
 @export var HP: int = 28
 @export var Damage: int = 1
 @export var KnockbackRecovery: float = 600.0
-@export var Experience: int = 50
-@export var Gold: int = 999
+@export var Experience: int = 6
+@export var Gold: int = 4
 var damageable: bool = true
 
 @export var SpeedScale = 1

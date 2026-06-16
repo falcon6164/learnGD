@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c56lorpt2ucfk"]
+[gd_scene load_steps=26 format=3 uid="uid://c56lorpt2ucfk"]
 
 [ext_resource type="PackedScene" uid="uid://cmtreiedb6qvj" path="res://Scenes/NPCs/Archer.tscn" id="1_8hpkw"]
 [ext_resource type="Texture2D" uid="uid://7rne24mfka1n" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cliff_Tile.png" id="1_med0o"]
@@ -8,31 +8,48 @@
 [ext_resource type="AudioStream" uid="uid://b72ldvf8sso76" path="res://Music/geoffharvey-our-summer-in-provence-176854.mp3" id="7_ko3vv"]
 [ext_resource type="Texture2D" uid="uid://dworyvpoa0mue" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_MilitaryCamp/Military_Tents.png" id="7_myodk"]
 [ext_resource type="PackedScene" uid="uid://deav0mfxpo0q3" path="res://Scenes/hud.tscn" id="8_pkf18"]
+[ext_resource type="Texture2D" uid="uid://dply07h1g7lxe" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/UI_ALL.png" id="9_2nsmk"]
+[ext_resource type="AudioStream" uid="uid://dmahs6j70r6e" path="res://Sounds/universfield-fail-trumpet-02-383962.mp3" id="10_d5hxl"]
+[ext_resource type="AudioStream" uid="uid://1g8wx7i1t3li" path="res://Sounds/freesound_community-complete_sound-98972.mp3" id="11_wswnc"]
 
 [sub_resource type="GDScript" id="GDScript_6neef"]
 resource_name = "Stage"
 script/source = "extends Node2D
 @export var Damage: int = 9
-@export var HP: int = 20
+@export var MaxHP: int = 20
+@export var HP: int = 20:
+	set(value):
+		HP = clamp(value, 0, MaxHP)
+		emit_signal(\"HPChanged\")
+		return HP
+@export var Stage:int = 1:
+	set(value):
+		Stage = value
+		emit_signal(\"StageChanged\")
 @export var Knockback: float = 150.0
-@export var EXP: int = 0
 var Damageable: bool = true
 var LvlUI = preload(\"res://Scenes/leveling_ui.tscn\")
 
 #信號
-signal DebugBtn
+signal HPChanged()
+signal StageChanged()
 
-# Called when the node enters the scene tree for the first time.
+#會用到的節點
+@onready var HUD = $HUD
+@onready var StageText = $GameOver/Label
+@onready var GameoverUI = $GameOver
+@onready var Spawner = $EnemySpawner
+@onready var Player = get_tree().get_first_node_in_group(\"Player\")
+@onready var GameoverSound = $GameoverSound
+@onready var ClearSound = $ClearSound
+
 func _ready():
-	#connect()
-	pass # Replace with function body.
+	HP = MaxHP
+	connect(\"StageChanged\", Callable(Spawner, \"StageUp\")) #TODO 在 Sapwner 呼叫對應的功能
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if Input.is_action_just_pressed(\"Debug\"):
-		pass
-		#LevelUp()
+		_on_continue_pressed()
 
 func _on_defense_area_body_entered(body):
 	if body.is_in_group(\"Enemy\"):
@@ -46,29 +63,60 @@ func _on_defense_area_body_entered(body):
 			gameover()
 
 func gameover():
-	print(\"gameover\")
 	get_tree().paused = true #將get_tree 抓到的場景樹全都暫停 -> 到時候要叫出來可以點擊的 UI 要被排除
-
+	GameoverUI.visible = true
+	if HP <= 0:
+		StageText.text = \"Game Over!\"
+		GameoverSound.play()
+		GameoverUI.get_node(\"Continue\").visible = false
+	else:
+		StageText.text = \"Stage Clear!\"
+		ClearSound.play()
+		GameoverUI.get_node(\"Continue\").visible = true
 
 func _on_border_left_body_exited(body):
 	if body.is_in_group(\"Projectiles\"):
 		print(\"Projectile Leaving Border\")
 		body.queue_free()
 
-
-#func LevelUp ():
-#	get_tree().paused = true
-#	var Leveling = LvlUI.instantiate()
-#	get_parent().add_child(Leveling)
-#	Leveling.get_path()
-#	print(Leveling.get_path())
-#	var tween = get_node(Leveling.get_path()).create_tween()
-#	tween.tween_property(get_node(Leveling.get_path()), \"position\", Vector2(0, 30), 0.3)
-
-
 func _on_wave_timer_timeout():
 	print(\"Stage Clear!\")
 	gameover()
+
+
+#HUD相關數值更新
+func _on_hp_changed():
+	HUD.get_child(0).get_node(\"HP\").text = str(HP)
+	
+func UpdateGold():
+	HUD.get_child(0).get_node(\"Gold\").text = str(Player.CurrentGold)
+	print(\"Gold Updated\")
+
+func UpdateEXP():
+	HUD.get_child(0).get_node(\"Exp\").text = str(Player.CurrentExp)
+	print(\"EXP Updated\")
+	
+func UpdateLevel():
+	HUD.get_child(0).get_node(\"Level\").text = str(Player.CurrentLevel)
+func UpdateStage():
+	HUD.get_child(0).get_node(\"Stage\").text = str(Stage)
+
+func _on_continue_pressed():
+	var enemy_list = get_tree().get_nodes_in_group(\"Enemy\")
+	for enemy in enemy_list:
+		enemy.queue_free()
+	Spawner.WaveTimer.start()
+	Stage += 1
+	GameoverUI.visible = false
+	get_tree().paused = false
+	
+
+func _on_quit_game_pressed():
+	get_tree().quit()
+
+
+func _on_stage_changed():
+	UpdateStage()
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pjoiv"]
@@ -82,41 +130,31 @@ var SpawnSlime = preload(\"res://Scenes/NPCs/slime.tscn\")
 var SpawnShroom = preload(\"res://Scenes/NPCs/Shroomling.tscn\")
 @export var SpawnList = []
 
-@export var SpawnCount: int = 100
+@export var CurrentLevel: int
 @export var MinEnemyPerWave: int = 3
-@export var MaxEnemyPerWave: int = ceil(SpawnCount /10)
+@export var SpawnCount = 100
+@export var MaxEnemyPerWave: int = 6
 @export var WaveTimeSec: int = 60
-@export var MinorWaveTimer: int = 6
+@export var MinorWaveTimer = 6
 
 @onready var SpawnTimer = get_node(\"SpawnTimer\")
 @onready var WaveTimer = get_node(\"WaveTimer\")
 @onready var Ground = get_child(0).get_node(\"SpawnArea\") 						#取得生怪區的位，i.e. SpawnArea 的中心點
 @onready var GCenter = Ground.global_position
 @onready var GSize = Ground.get_shape().size 									#取得 SpawnArea.Shape 底下的 X, Y Size (Vector2)
-@onready var Air =get_child(1).get_node(\"SpawnArea\").global_position
-
-#TODO:
-#關卡開始時決定生怪數量 A (or total 戰力)
-#關卡倒數計時，一關固定60 sec / 5波
-#一波 12 秒，每波分到固定的生怪數量 (A/5)
-#用隨機 x 位置控制生怪波的前後位置...? X 或許可以拉長生怪的X範圍
-
+@onready var Air = get_child(1).get_node(\"SpawnArea\").global_position
 
 func _ready():
 	WaveTimer.wait_time = WaveTimeSec
 	WaveTimer.start()
 	SpawnTimer.start()
 	
-	#TODO: 設計隨關卡增加出場怪種類的方法
 	SpawnList.append(SpawnSkel)
 	SpawnList.append(SpawnSlime)
 	SpawnList.append(SpawnShroom)
 
 
 func _on_spawn_timer_timeout():
-	#print(\"Timeout\") 
-	#var Enemy_Instance = SpawnSkel.instantiate()
-	#get_parent().add_child(Enemy_Instance)
 	
 	SpawnCount = randi_range(MinEnemyPerWave, MaxEnemyPerWave)
 	print(\"SpawnCount: \", SpawnCount)
@@ -129,6 +167,11 @@ func _on_spawn_timer_timeout():
 		i += 1
 	SpawnTimer.wait_time = randi_range(1, MinorWaveTimer)
 	SpawnTimer.start()
+func StageUp():
+	#根據 Stage 值增加遊戲難度
+	MaxEnemyPerWave += 2
+	MinorWaveTimer *= 0.96
+	
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6xh74"]
@@ -779,6 +822,54 @@ sources/2 = SubResource("TileSetAtlasSource_py6yf")
 sources/3 = SubResource("TileSetAtlasSource_bvo5k")
 sources/5 = SubResource("TileSetAtlasSource_82fwx")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dx1lr"]
+texture = ExtResource("9_2nsmk")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+region_rect = Rect2(1115.53, 106.751, 24.3744, 26.1155)
+
+[sub_resource type="FontFile" id="FontFile_6bdn2"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/36/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/48/0/ascent = 0.0
+cache/0/48/0/descent = 0.0
+cache/0/48/0/underline_position = 0.0
+cache/0/48/0/underline_thickness = 0.0
+cache/0/48/0/scale = 1.0
+cache/0/48/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/36/0 = Vector2(0, 0)
+cache/0/48/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/36/0/ascent = 0.0
+cache/0/36/0/descent = 0.0
+cache/0/36/0/underline_position = 0.0
+cache/0/36/0/underline_thickness = 0.0
+cache/0/36/0/scale = 1.0
+cache/0/36/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/36/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/36/0/kerning_overrides/36/0 = Vector2(0, 0)
+cache/0/36/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/32/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/48/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/36/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/32/0 = Vector2(0, 0)
+
 [node name="Stage" type="Node2D"]
 script = SubResource("GDScript_6neef")
 
@@ -810,9 +901,11 @@ width = 4.0
 default_color = Color(0, 0, 0, 1)
 
 [node name="Archer" parent="." instance=ExtResource("1_8hpkw")]
+z_index = 99
 position = Vector2(916, 256)
 
 [node name="DefenseArea" type="Area2D" parent="."]
+position = Vector2(1, 0)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenseArea"]
@@ -824,6 +917,8 @@ script = SubResource("GDScript_sh1en")
 MaxEnemyPerWave = 0
 
 [node name="GroundEnemySpawn" type="Area2D" parent="EnemySpawner"]
+collision_layer = 8
+collision_mask = 0
 
 [node name="SpawnArea" type="CollisionShape2D" parent="EnemySpawner/GroundEnemySpawn"]
 position = Vector2(-134, 409)
@@ -866,7 +961,65 @@ offset_top = 21.0
 offset_right = 112.0
 offset_bottom = 85.0
 
+[node name="GameOver" type="Control" parent="."]
+process_mode = 3
+visible = false
+z_index = 99
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="GameOver"]
+layout_mode = 0
+offset_left = 285.0
+offset_top = 257.0
+offset_right = 681.0
+offset_bottom = 516.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_dx1lr")
+
+[node name="Label" type="Label" parent="GameOver"]
+layout_mode = 0
+offset_left = 358.0
+offset_top = 337.0
+offset_right = 607.0
+offset_bottom = 386.0
+theme_override_fonts/font = SubResource("FontFile_6bdn2")
+theme_override_font_sizes/font_size = 32
+text = "Stage Clear!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Continue" type="Button" parent="GameOver"]
+visible = false
+layout_mode = 0
+offset_left = 361.0
+offset_top = 449.0
+offset_right = 451.0
+offset_bottom = 481.0
+text = "Continue"
+
+[node name="QuitGame" type="Button" parent="GameOver"]
+layout_mode = 0
+offset_left = 519.0
+offset_top = 449.0
+offset_right = 611.0
+offset_bottom = 481.0
+text = "Quit Game"
+
+[node name="GameoverSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("10_d5hxl")
+
+[node name="ClearSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("11_wswnc")
+
+[connection signal="HPChanged" from="." to="." method="_on_hp_changed"]
+[connection signal="StageChanged" from="." to="." method="_on_stage_changed"]
 [connection signal="body_entered" from="DefenseArea" to="." method="_on_defense_area_body_entered"]
 [connection signal="timeout" from="EnemySpawner/SpawnTimer" to="EnemySpawner" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="EnemySpawner/WaveTimer" to="." method="_on_wave_timer_timeout"]
 [connection signal="body_exited" from="BorderLeft" to="." method="_on_border_left_body_exited"]
+[connection signal="pressed" from="GameOver/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="GameOver/QuitGame" to="." method="_on_quit_game_pressed"]

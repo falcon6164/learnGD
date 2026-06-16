@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://m3m4n73dg4oh"]
+[gd_scene load_steps=11 format=3 uid="uid://m3m4n73dg4oh"]
 
 [ext_resource type="StyleBox" uid="uid://dc0gf61ahb3qs" path="res://Scenes/UI_style.tres" id="1_nyrae"]
 [ext_resource type="Script" path="res://Scenes/Options.gd" id="2_5xpyp"]
 [ext_resource type="FontFile" uid="uid://crv6w6pgyvmcn" path="res://Resources/Abbeyline.ttf" id="3_ffc1h"]
 [ext_resource type="Texture2D" uid="uid://bjrccdaxr71ed" path="res://Sprites/feather.png" id="4_b5xlt"]
 [ext_resource type="Texture2D" uid="uid://dply07h1g7lxe" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/UI_ALL.png" id="6_6bhjf"]
+[ext_resource type="AudioStream" uid="uid://fr8hyrbhp7is" path="res://Sounds/freesound_community-page-flip-47177.mp3" id="6_8elr6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sc6io"]
 bg_color = Color(0.427451, 0.427451, 0.427451, 0.270588)
@@ -42,7 +43,7 @@ theme_override_styles/panel = ExtResource("1_nyrae")
 script = ExtResource("2_5xpyp")
 
 [node name="OptionName" type="Label" parent="."]
-z_index = 2
+z_index = 99
 texture_filter = 1
 layout_mode = 0
 offset_left = 50.0
@@ -96,6 +97,8 @@ region_rect = Rect2(87.5922, 1279.46, 99.5527, 29.7632)
 
 [node name="ClickSound" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(16, 294)
+stream = ExtResource("6_8elr6")
+volume_db = -0.105
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

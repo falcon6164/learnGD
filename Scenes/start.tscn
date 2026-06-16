@@ -30,10 +30,42 @@ text = "Start"
 layout_mode = 2
 text = "Credits"
 
+[node name="Panel" type="Panel" parent="Control/VBoxContainer/CreditBtn"]
+visible = false
+layout_mode = 0
+offset_left = 391.0
+offset_top = -306.0
+offset_right = 767.0
+offset_bottom = 332.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/VBoxContainer/CreditBtn/Panel"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 33.0
+offset_right = 354.0
+offset_bottom = 618.0
+bbcode_enabled = true
+text = "Game By Gray / [b][url=https://github.com/falcon6164/learnGD]Falcon6164[/url][/b]
+
+2D Pixel Art Packs :
+[url=https://kenmi-art.itch.io/cute-fantasy-rpg]Kenmi's Cute Fantasy Rpg[/url]
+---
+Sound Effect & Music:
+	Pixabay Authors:
+		- Freesound Community
+		- u_xio2tir4to
+		- Dragon Studio
+		- Djartmusic
+		- Universfield
+
+
+"
+
 [node name="QuitBtn" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 text = "Quit
 "
 
 [connection signal="pressed" from="Control/VBoxContainer/StartBtn" to="." method="_on_start_btn_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/CreditBtn" to="." method="_on_credit_btn_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/QuitBtn" to="." method="_on_quit_btn_pressed"]

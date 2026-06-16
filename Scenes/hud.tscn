@@ -1,4 +1,10 @@
-[gd_scene format=3 uid="uid://deav0mfxpo0q3"]
+[gd_scene load_steps=6 format=3 uid="uid://deav0mfxpo0q3"]
+
+[ext_resource type="Texture2D" uid="uid://p33r8lj3axrq" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/gold.png" id="1_kxt0c"]
+[ext_resource type="Texture2D" uid="uid://dpcj1ejbqle6x" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/Heart.png" id="2_78tai"]
+[ext_resource type="Texture2D" uid="uid://017o36rsc1e1" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/Exp.png" id="3_wema2"]
+[ext_resource type="Texture2D" uid="uid://mgaavjqkj6pm" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/Lv.png" id="4_622r4"]
+[ext_resource type="Texture2D" uid="uid://bdm37dsk42e6v" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/Crown.png" id="5_8xw05"]
 
 [node name="HUD" type="Control"]
 custom_minimum_size = Vector2(64, 64)
@@ -6,40 +12,78 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -584.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="GridContainer" type="GridContainer" parent="."]
 clip_contents = true
 layout_mode = 0
-offset_right = 1154.0
-offset_bottom = 648.0
-columns = 5
+offset_right = 1166.0
+offset_bottom = 98.0
+mouse_filter = 2
+columns = 10
+
+[node name="GoldIcon" type="TextureRect" parent="GridContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("1_kxt0c")
+stretch_mode = 2
 
 [node name="Gold" type="RichTextLabel" parent="GridContainer"]
 clip_contents = false
-custom_minimum_size = Vector2(230, 64)
+custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
-text = "Gold: 0"
+mouse_filter = 2
+text = "0"
+
+[node name="HPIcon" type="TextureRect" parent="GridContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("2_78tai")
+stretch_mode = 2
 
 [node name="HP" type="RichTextLabel" parent="GridContainer"]
-custom_minimum_size = Vector2(230, 64)
+custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
-text = "HP: 0"
+mouse_filter = 2
+text = "0"
+
+[node name="EXPIcon" type="TextureRect" parent="GridContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("3_wema2")
+stretch_mode = 2
 
 [node name="Exp" type="RichTextLabel" parent="GridContainer"]
 clip_contents = false
-custom_minimum_size = Vector2(230, 64)
+custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
-text = "EXP: 0"
+mouse_filter = 2
+text = "0"
+
+[node name="LevelIcon" type="TextureRect" parent="GridContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("4_622r4")
+stretch_mode = 2
 
 [node name="Level" type="RichTextLabel" parent="GridContainer"]
-custom_minimum_size = Vector2(230, 32)
+custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
-text = "Level: 1"
+mouse_filter = 2
+text = "1"
+
+[node name="StageIcon" type="TextureRect" parent="GridContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("5_8xw05")
+stretch_mode = 2
 
 [node name="Stage" type="RichTextLabel" parent="GridContainer"]
-custom_minimum_size = Vector2(230, 32)
+custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
-text = "Stage: 1"
+mouse_filter = 2
+text = "1"

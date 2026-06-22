@@ -1,11 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://nc770yo40qei"]
+[gd_scene load_steps=8 format=3 uid="uid://nc770yo40qei"]
 
 [ext_resource type="Script" path="res://Scripts/start.gd" id="1_vp8sb"]
+[ext_resource type="Texture2D" uid="uid://l7uyx1032bbw" path="res://Sprites/Cute_Fantasy_Characters/Tiles/按鈕.png" id="2_df3y8"]
+[ext_resource type="Texture2D" uid="uid://c84t3h10d80ug" path="res://Sprites/Cute_Fantasy_Characters/Tiles/BG.png" id="3_dhd63"]
+[ext_resource type="Texture2D" uid="uid://d0mdyawa08kll" path="res://Sprites/Cute_Fantasy_Characters/Tiles/人物.png" id="4_bg83f"]
+[ext_resource type="Texture2D" uid="uid://cu86oea8dnnax" path="res://Sprites/Cute_Fantasy_Characters/Tiles/LOGO(750x280).png" id="4_kb4xi"]
+[ext_resource type="FontFile" uid="uid://ciqj1clolbjk2" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/Fonts/CuteFantasy-5x9.ttf" id="6_lk2hj"]
 
 [sub_resource type="Theme" id="Theme_ryipj"]
 
 [node name="Start" type="Node2D"]
 script = ExtResource("1_vp8sb")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(575, 324)
+texture = ExtResource("3_dhd63")
+
+[node name="Figure" type="Sprite2D" parent="."]
+position = Vector2(220, 355)
+texture = ExtResource("4_bg83f")
+
+[node name="LOGO" type="Sprite2D" parent="."]
+position = Vector2(700, 142)
+texture = ExtResource("4_kb4xi")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -15,57 +32,106 @@ offset_bottom = 645.0
 theme = SubResource("Theme_ryipj")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+custom_minimum_size = Vector2(0, 93)
 layout_mode = 0
-offset_left = 384.0
-offset_top = 2.0
-offset_right = 768.0
-offset_bottom = 647.0
+offset_left = 525.0
+offset_top = 120.0
+offset_right = 909.0
+offset_bottom = 765.0
 alignment = 1
 
 [node name="StartBtn" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
+icon = ExtResource("2_df3y8")
+flat = true
+alignment = 0
+icon_alignment = 1
+
+[node name="StartLabel" type="Label" parent="Control/VBoxContainer/StartBtn"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 25.0
+offset_right = 226.0
+offset_bottom = 57.0
+theme_override_colors/font_color = Color(0.886275, 0.517647, 0.156863, 1)
+theme_override_colors/font_shadow_color = Color(0.584314, 0.282353, 0.129412, 1)
+theme_override_fonts/font = ExtResource("6_lk2hj")
+theme_override_font_sizes/font_size = 32
 text = "Start"
+horizontal_alignment = 1
 
 [node name="CreditBtn" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
-text = "Credits"
+icon = ExtResource("2_df3y8")
+flat = true
+icon_alignment = 1
 
 [node name="Panel" type="Panel" parent="Control/VBoxContainer/CreditBtn"]
 visible = false
 layout_mode = 0
-offset_left = 391.0
-offset_top = -306.0
-offset_right = 767.0
-offset_bottom = 332.0
+offset_left = -290.0
+offset_top = -127.0
+offset_right = 52.0
+offset_bottom = 252.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Control/VBoxContainer/CreditBtn/Panel"]
 layout_mode = 0
-offset_left = 17.0
-offset_top = 33.0
-offset_right = 354.0
-offset_bottom = 618.0
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 349.0
+offset_bottom = 375.0
 bbcode_enabled = true
 text = "Game By Gray / [b][url=https://github.com/falcon6164/learnGD]Falcon6164[/url][/b]
 
-2D Pixel Art Packs :
-[url=https://kenmi-art.itch.io/cute-fantasy-rpg]Kenmi's Cute Fantasy Rpg[/url]
+2D Pixel Art Packs : [url=https://kenmi-art.itch.io/cute-fantasy-rpg]Kenmi's Cute Fantasy Rpg[/url]
 ---
-Sound Effect & Music:
+Sound Effects  Musics:
 	Pixabay Authors:
 		- Freesound Community
 		- u_xio2tir4to
 		- Dragon Studio
 		- Djartmusic
 		- Universfield
+		- Geoffharvey
 
+Special Thanks: 
+ 2D Art & UI : Twitter@ [url]leinnas[/url]"
+scroll_following = true
 
-"
+[node name="CreditLabel" type="Label" parent="Control/VBoxContainer/CreditBtn"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 24.0
+offset_right = 234.0
+offset_bottom = 56.0
+theme_override_colors/font_color = Color(0.886275, 0.517647, 0.156863, 1)
+theme_override_colors/font_shadow_color = Color(0.584314, 0.282353, 0.129412, 1)
+theme_override_fonts/font = ExtResource("6_lk2hj")
+theme_override_font_sizes/font_size = 32
+text = "Credit"
+horizontal_alignment = 1
 
 [node name="QuitBtn" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
-text = "Quit
-"
+icon = ExtResource("2_df3y8")
+flat = true
+icon_alignment = 1
+
+[node name="QuitLabel" type="Label" parent="Control/VBoxContainer/QuitBtn"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 24.0
+offset_right = 226.0
+offset_bottom = 56.0
+theme_override_colors/font_color = Color(0.886275, 0.517647, 0.156863, 1)
+theme_override_colors/font_shadow_color = Color(0.584314, 0.282353, 0.129412, 1)
+theme_override_fonts/font = ExtResource("6_lk2hj")
+theme_override_font_sizes/font_size = 32
+text = "Quit"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="Control/VBoxContainer/StartBtn" to="." method="_on_start_btn_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/CreditBtn" to="." method="_on_credit_btn_mouse_entered"]
+[connection signal="mouse_exited" from="Control/VBoxContainer/CreditBtn" to="." method="_on_credit_btn_mouse_exited"]
 [connection signal="pressed" from="Control/VBoxContainer/CreditBtn" to="." method="_on_credit_btn_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/QuitBtn" to="." method="_on_quit_btn_pressed"]

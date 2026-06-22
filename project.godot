@@ -10,14 +10,20 @@ config_version=5
 
 [application]
 
-config/name="Shooter"
+config/name="Fantasy Shooter"
+config/description="Shootem Up"
+config/version="1"
 run/main_scene="res://Scenes/start.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://Sprites/Cute_Fantasy_Characters/Tiles/icon.svg"
+config/icon="res://Sprites/Archer_icon.png"
 
 [autoload]
 
 ArcherUpgradeDb="*res://Resources/archer_upgrade_db.tscn"
+
+[display]
+
+window/size/resizable=false
 
 [file_customization]
 

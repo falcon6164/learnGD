@@ -37,6 +37,8 @@ clip_contents = false
 custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
 mouse_filter = 2
+theme_override_colors/default_color = Color(0.568627, 0.109804, 0, 1)
+theme_override_constants/outline_size = 3
 text = "0"
 
 [node name="HPIcon" type="TextureRect" parent="GridContainer"]
@@ -49,6 +51,8 @@ stretch_mode = 2
 custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
 mouse_filter = 2
+theme_override_colors/default_color = Color(0.568627, 0.109804, 0, 1)
+theme_override_constants/outline_size = 3
 text = "0"
 
 [node name="EXPIcon" type="TextureRect" parent="GridContainer"]
@@ -62,6 +66,8 @@ clip_contents = false
 custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
 mouse_filter = 2
+theme_override_colors/default_color = Color(0.568627, 0.109804, 0, 1)
+theme_override_constants/outline_size = 3
 text = "0"
 
 [node name="LevelIcon" type="TextureRect" parent="GridContainer"]
@@ -74,6 +80,8 @@ stretch_mode = 2
 custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
 mouse_filter = 2
+theme_override_colors/default_color = Color(0.568627, 0.109804, 0, 1)
+theme_override_constants/outline_size = 3
 text = "1"
 
 [node name="StageIcon" type="TextureRect" parent="GridContainer"]
@@ -86,4 +94,6 @@ stretch_mode = 2
 custom_minimum_size = Vector2(115, 32)
 layout_mode = 2
 mouse_filter = 2
+theme_override_colors/default_color = Color(0.568627, 0.109804, 0, 1)
+theme_override_constants/outline_size = 3
 text = "1"

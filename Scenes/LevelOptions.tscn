@@ -3,7 +3,7 @@
 [ext_resource type="StyleBox" uid="uid://dc0gf61ahb3qs" path="res://Scenes/UI_style.tres" id="1_nyrae"]
 [ext_resource type="Script" path="res://Scenes/Options.gd" id="2_5xpyp"]
 [ext_resource type="FontFile" uid="uid://crv6w6pgyvmcn" path="res://Resources/Abbeyline.ttf" id="3_ffc1h"]
-[ext_resource type="Texture2D" uid="uid://bjrccdaxr71ed" path="res://Sprites/feather.png" id="4_b5xlt"]
+[ext_resource type="Texture2D" uid="uid://30us4fn33dsn" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/Damage.png" id="4_3320i"]
 [ext_resource type="Texture2D" uid="uid://dply07h1g7lxe" path="res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/UI_ALL.png" id="6_6bhjf"]
 [ext_resource type="AudioStream" uid="uid://fr8hyrbhp7is" path="res://Sounds/freesound_community-page-flip-47177.mp3" id="6_8elr6"]
 
@@ -19,8 +19,8 @@ corner_detail = 20
 font = ExtResource("3_ffc1h")
 font_size = 14
 font_color = Color(0.592157, 0.121569, 0, 1)
-outline_size = 2
-outline_color = Color(1, 1, 1, 0.462745)
+outline_size = 3
+outline_color = Color(1, 0.627451, 0, 1)
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_i67rh"]
 color = Color(0.898039, 0.666667, 0.572549, 0.898039)
@@ -35,6 +35,7 @@ font_color = Color(0, 0, 0, 1)
 shadow_size = 0
 
 [node name="Options" type="Panel"]
+z_index = 99
 texture_filter = 1
 custom_minimum_size = Vector2(200, 278)
 offset_right = 202.0
@@ -53,7 +54,6 @@ offset_bottom = 162.0
 scale = Vector2(1.00324, 0.811228)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.721569, 0.721569, 0.721569, 1)
-theme_override_fonts/font = ExtResource("3_ffc1h")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_sc6io")
 text = "Strafe"
@@ -63,9 +63,10 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="ItemIcon" type="Sprite2D" parent="."]
+z_index = 99
 position = Vector2(100.5, 78)
-scale = Vector2(0.100313, 0.09375)
-texture = ExtResource("4_b5xlt")
+scale = Vector2(3, 3)
+texture = ExtResource("4_3320i")
 
 [node name="Desc" type="Label" parent="."]
 process_mode = 3
@@ -96,6 +97,7 @@ region_enabled = true
 region_rect = Rect2(87.5922, 1279.46, 99.5527, 29.7632)
 
 [node name="ClickSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 position = Vector2(16, 294)
 stream = ExtResource("6_8elr6")
 volume_db = -0.105

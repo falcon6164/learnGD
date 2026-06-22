@@ -4,7 +4,6 @@ extends Panel
 @onready var DescText = $Desc
 @onready var Icon = $ItemIcon
 @onready var Player = get_tree().get_first_node_in_group("Player")
-@onready var ClickSound = $ClickSound
 
 var item = null
 var mouseover: bool = false
@@ -26,7 +25,6 @@ func _input(event):
 		if mouseover:
 			emit_signal("UpgradePicked", NameLbl.text)
 			print(Player)
-			ClickSound.play()
 
 func _on_mouse_entered():
 	mouseover = true

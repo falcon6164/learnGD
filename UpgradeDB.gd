@@ -10,7 +10,7 @@ const UPGRADES = {
 		"prerequisite": []
 	},
 		"Piercing": {
-		"icon": "res://Sprites/feather.png", 
+		"icon": "res://Sprites/Arrow.png", 
 		"displayname": "Piercing", 
 		"description": "Arrow will go through enemy.", 
 		"Level": "Lv1",

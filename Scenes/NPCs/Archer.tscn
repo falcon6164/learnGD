@@ -1,10 +1,11 @@
-[gd_scene load_steps=35 format=3 uid="uid://cmtreiedb6qvj"]
+[gd_scene load_steps=36 format=3 uid="uid://cmtreiedb6qvj"]
 
 [ext_resource type="Texture2D" uid="uid://d3p7ui3d67bhc" path="res://Sprites/Cute_Fantasy_Characters/Knights/Archer.png" id="1_8fat0"]
 [ext_resource type="Texture2D" uid="uid://cxcqqalh48cee" path="res://Sprites/Cute_Fantasy_Characters/Weapons/Wooden_Bow.png" id="2_dfbqc"]
 [ext_resource type="Script" path="res://Scenes/Attacks/ReloadBar.gd" id="3_51y8v"]
 [ext_resource type="PackedScene" uid="uid://cf7l8a8g4nmab" path="res://Scenes/leveling_ui.tscn" id="3_57sak"]
 [ext_resource type="AudioStream" uid="uid://dvrufv85vgldo" path="res://Sounds/universfield-brass-144755.mp3" id="5_sq107"]
+[ext_resource type="AudioStream" uid="uid://fr8hyrbhp7is" path="res://Sounds/freesound_community-page-flip-47177.mp3" id="6_pdnbn"]
 
 [sub_resource type="GDScript" id="GDScript_eulrj"]
 script/source = "extends CharacterBody2D
@@ -51,6 +52,7 @@ var ChargeGauge: float:
 @onready var ReloadBar = $ReloadBar
 @onready var LvlUI = $LevelingUI
 @onready var LevelUpSound = $LevelUpSound
+@onready var ClickSound = $ClickSound
 @onready var stage = get_parent()
 
 enum States {idle, attack}
@@ -138,6 +140,9 @@ func UpgradePicked(upgrade: String):
 			Damage += 2
 		\"Quickdraw\":
 			AttackTimer.wait_time *= 0.96
+	ClickSound.play()
+	await get_tree().create_timer(0.2).timeout
+	LvlUI.process_mode = Node.PROCESS_MODE_INHERIT
 	
 	var Children = LvlUI.get_node(\"OptionsContainer\").get_children()
 	for i in Children:
@@ -156,6 +161,8 @@ func _on_level_up():
 	LvlUI.visible = true
 	CurrentLevel += 1
 	get_parent().get_tree().paused = true
+	await get_tree().create_timer(0.7).timeout
+	LvlUI.process_mode = Node.PROCESS_MODE_ALWAYS
 	
 "
 
@@ -360,11 +367,16 @@ animations = [{
 }]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5id0f"]
-corner_detail = 4
+bg_color = Color(0.215686, 0.215686, 0.215686, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_518r1"]
-bg_color = Color(0.305882, 0.709804, 0, 1)
-corner_detail = 4
+bg_color = Color(0.419608, 0.709804, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.607843, 0.576471, 0.380392, 1)
+corner_detail = 20
 
 [node name="Archer" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(-2, -4)
@@ -393,10 +405,11 @@ sprite_frames = SubResource("SpriteFrames_8fm7t")
 wait_time = 0.4
 
 [node name="ReloadBar" type="ProgressBar" parent="."]
+visible = false
 offset_left = -9.0
-offset_top = -20.0
+offset_top = -24.0
 offset_right = 14.0
-offset_bottom = -14.0
+offset_bottom = -18.0
 theme_override_styles/background = SubResource("StyleBoxFlat_5id0f")
 theme_override_styles/fill = SubResource("StyleBoxFlat_518r1")
 value = 100.0
@@ -411,6 +424,10 @@ offset_right = 48.0
 [node name="LevelUpSound" type="AudioStreamPlayer2D" parent="."]
 process_mode = 3
 stream = ExtResource("5_sq107")
+
+[node name="ClickSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("6_pdnbn")
 
 [connection signal="AttackFired" from="." to="ReloadBar" method="_on_archer_attack_fired"]
 [connection signal="AttackReady" from="." to="ReloadBar" method="_on_archer_attack_ready"]

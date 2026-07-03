@@ -1,11 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dygey03ubw2j2"]
+[gd_scene format=3 uid="uid://dygey03ubw2j2"]
 
 [ext_resource type="Texture2D" uid="uid://5sj0j684fcqj" path="res://Sprites/Arrow.png" id="1_geity"]
 [ext_resource type="AudioStream" uid="uid://cdj2kpjuihn4p" path="res://Sounds/djartmusic-arrow-swish_03-306040.mp3" id="2_1exrw"]
 
 [sub_resource type="GDScript" id="GDScript_ocau0"]
-script/source = "class_name Projectiles
-extends CharacterBody2D
+script/source = "extends CharacterBody2D
 
 var pos: Vector2
 var dir: float
@@ -36,23 +35,23 @@ func die():
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fnte2"]
 size = Vector2(426.083, 95.2807)
 
-[node name="Arrow" type="CharacterBody2D" groups=["Projectiles"]]
+[node name="Arrow" type="CharacterBody2D" unique_id=412028536 groups=["Projectiles"]]
 scale = Vector2(2, 2)
 collision_layer = 4
 collision_mask = 0
 script = SubResource("GDScript_ocau0")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=804951099]
 position = Vector2(4.76837e-07, -4.76837e-07)
 rotation = 2.61799
 scale = Vector2(0.977556, 0.549387)
 texture = ExtResource("1_geity")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1642333260]
 position = Vector2(0.353551, -0.353555)
 scale = Vector2(0.04, 0.04)
 shape = SubResource("RectangleShape2D_fnte2")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1858952575]
 stream = ExtResource("2_1exrw")
 volume_db = -27.577

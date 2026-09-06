@@ -21,7 +21,7 @@ func _ready():
 	Icon.texture = load(ArcherUpgradeDb.UPGRADES[item]["icon"])
 	
 func _input(event):
-	if event.is_action("Click"):
+	if event.is_action_released("Click"):
 		if mouseover:
 			emit_signal("UpgradePicked", NameLbl.text)
 			print(Player)

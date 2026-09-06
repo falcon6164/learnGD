@@ -19,9 +19,11 @@ var damageable: bool = true
 @onready var Player = get_tree().get_first_node_in_group("Player")
 
 #狀態機
-#TODO: get_set
 enum States {idle, move, dead}
 @onready var current_state: States = States.idle
+
+#資源、場景預載
+const DAMAGENUMBER = preload("res://Scenes/NPCs/damage_number.tscn")
 
 func _physics_process(_delta):
 #移動
@@ -44,12 +46,15 @@ func take_damage(source_dmg: int, source_knockback: float):
 		velocity.x -= source_knockback
 		print("knockback: ", source_knockback, "\nVelocity.x: ", velocity.x)
 		$SoundHurt.play()
+		#跳傷害數字
+		var DMGNUM = DAMAGENUMBER.instantiate() as Label
+		DMGNUM.text = str(source_dmg)
+		DMGNUM.global_position = self.global_position
+		get_tree().current_scene.call_deferred("add_child", DMGNUM)
 		
 		if HP <= 0:
 			damageable = false
-			print("HP: ", HP)
 			die()
-
 
 func die():
 	Player.Get_Loot(Experience, Gold)	

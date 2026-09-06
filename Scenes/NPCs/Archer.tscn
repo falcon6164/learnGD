@@ -1,9 +1,11 @@
-[gd_scene load_steps=36 format=3 uid="uid://cmtreiedb6qvj"]
+[gd_scene format=3 uid="uid://cmtreiedb6qvj"]
 
-[ext_resource type="Texture2D" uid="uid://d3p7ui3d67bhc" path="res://Sprites/Cute_Fantasy_Characters/Knights/Archer.png" id="1_8fat0"]
+[ext_resource type="Texture2D" uid="uid://rvmwo5votl4q" path="res://Sprites/Cute_Fantasy_Characters/Knights/archer_n.tres" id="1_tfjkk"]
 [ext_resource type="Texture2D" uid="uid://cxcqqalh48cee" path="res://Sprites/Cute_Fantasy_Characters/Weapons/Wooden_Bow.png" id="2_dfbqc"]
-[ext_resource type="Script" path="res://Scenes/Attacks/ReloadBar.gd" id="3_51y8v"]
 [ext_resource type="PackedScene" uid="uid://cf7l8a8g4nmab" path="res://Scenes/leveling_ui.tscn" id="3_57sak"]
+[ext_resource type="Texture2D" uid="uid://di4j7ikdgnrld" path="res://Sprites/Cute_Fantasy_Characters/Tiles/CircularProgress_Under.png" id="3_tfjkk"]
+[ext_resource type="Texture2D" uid="uid://bn7kmag10lho7" path="res://Sprites/Cute_Fantasy_Characters/Tiles/CircularProgress.png" id="4_s316i"]
+[ext_resource type="Script" uid="uid://m3esnqafj2bh" path="res://Scenes/NPCs/texture_progress_bar.gd" id="5_s316i"]
 [ext_resource type="AudioStream" uid="uid://dvrufv85vgldo" path="res://Sounds/universfield-brass-144755.mp3" id="5_sq107"]
 [ext_resource type="AudioStream" uid="uid://fr8hyrbhp7is" path="res://Sounds/freesound_community-page-flip-47177.mp3" id="6_pdnbn"]
 
@@ -49,7 +51,7 @@ var ChargeGauge: float:
 
 @onready var AttackTimer = $AttackTimer
 @onready var Weapon = $WeaponSprite
-@onready var ReloadBar = $ReloadBar
+@onready var ReloadBar = $TextureProgressBar
 @onready var LvlUI = $LevelingUI
 @onready var LevelUpSound = $LevelUpSound
 @onready var ClickSound = $ClickSound
@@ -166,132 +168,132 @@ func _on_level_up():
 	
 "
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0m2m6"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_s316i"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(0, 336, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_a7f8h"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_hlov0"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(48, 336, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_n0tvs"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_55h6f"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(96, 336, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pcrf7"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_bs1ro"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(144, 336, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f2ob8"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_sah5q"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(192, 336, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uq7em"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_47yii"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(240, 336, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5ch2u"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4upc"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(0, 432, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bx8el"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xjkl"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(48, 432, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_re3vr"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_1n1pf"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(96, 432, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mw85c"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0fww"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(144, 432, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5cy3i"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_71nc7"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(0, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bleys"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ry82l"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(48, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rt0ov"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_8c770"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(96, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_k4c8r"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fr2l"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(144, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i8pdv"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_2otsf"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(192, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_j000u"]
-atlas = ExtResource("1_8fat0")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehy2n"]
+atlas = ExtResource("1_tfjkk")
 region = Rect2(240, 0, 48, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_j784g"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0m2m6")
+"texture": SubResource("AtlasTexture_s316i")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_a7f8h")
+"texture": SubResource("AtlasTexture_hlov0")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_n0tvs")
+"texture": SubResource("AtlasTexture_55h6f")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pcrf7")
+"texture": SubResource("AtlasTexture_bs1ro")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f2ob8")
+"texture": SubResource("AtlasTexture_sah5q")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uq7em")
+"texture": SubResource("AtlasTexture_47yii")
 }],
-"loop": true,
+"loop": 1,
 "name": &"attack",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5ch2u")
+"texture": SubResource("AtlasTexture_o4upc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bx8el")
+"texture": SubResource("AtlasTexture_2xjkl")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_re3vr")
+"texture": SubResource("AtlasTexture_1n1pf")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mw85c")
+"texture": SubResource("AtlasTexture_o0fww")
 }],
-"loop": true,
+"loop": 1,
 "name": &"dead",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5cy3i")
+"texture": SubResource("AtlasTexture_71nc7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bleys")
+"texture": SubResource("AtlasTexture_ry82l")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rt0ov")
+"texture": SubResource("AtlasTexture_8c770")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_k4c8r")
+"texture": SubResource("AtlasTexture_3fr2l")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_i8pdv")
+"texture": SubResource("AtlasTexture_2otsf")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_j000u")
+"texture": SubResource("AtlasTexture_ehy2n")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 5.0
 }]
@@ -339,7 +341,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1qunu")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack_charge",
 "speed": 6.0
 }, {
@@ -353,7 +355,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wti8r")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack_release",
 "speed": 7.0
 }, {
@@ -361,28 +363,16 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_c4ncm")
 }],
-"loop": false,
+"loop": 0,
 "name": &"default",
 "speed": 5.0
 }]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5id0f"]
-bg_color = Color(0.215686, 0.215686, 0.215686, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_518r1"]
-bg_color = Color(0.419608, 0.709804, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.607843, 0.576471, 0.380392, 1)
-corner_detail = 20
-
-[node name="Archer" type="CharacterBody2D" groups=["Player"]]
+[node name="Archer" type="CharacterBody2D" unique_id=1668533870 groups=["Player"]]
 position = Vector2(-2, -4)
 script = SubResource("GDScript_eulrj")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1232735463]
 texture_filter = 1
 position = Vector2(2, -11)
 scale = Vector2(2, 2)
@@ -390,47 +380,45 @@ sprite_frames = SubResource("SpriteFrames_j784g")
 animation = &"dead"
 flip_h = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1437064197]
 position = Vector2(2.5, 3.5)
 shape = SubResource("RectangleShape2D_2xvuy")
 
-[node name="WeaponSprite" type="AnimatedSprite2D" parent="."]
+[node name="WeaponSprite" type="AnimatedSprite2D" parent="." unique_id=2080510097]
 texture_filter = 1
 position = Vector2(-2, 4)
 rotation = 3.14159
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_8fm7t")
 
-[node name="AttackTimer" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="." unique_id=2135451343]
 wait_time = 0.4
 
-[node name="ReloadBar" type="ProgressBar" parent="."]
-visible = false
-offset_left = -9.0
-offset_top = -24.0
-offset_right = 14.0
-offset_bottom = -18.0
-theme_override_styles/background = SubResource("StyleBoxFlat_5id0f")
-theme_override_styles/fill = SubResource("StyleBoxFlat_518r1")
-value = 100.0
-show_percentage = false
-script = ExtResource("3_51y8v")
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=488137980]
+offset_left = -6.0
+offset_top = -39.0
+offset_right = 10.0
+offset_bottom = -23.0
+fill_mode = 4
+texture_under = ExtResource("3_tfjkk")
+texture_progress = ExtResource("4_s316i")
+script = ExtResource("5_s316i")
 
-[node name="LevelingUI" parent="." instance=ExtResource("3_57sak")]
+[node name="LevelingUI" parent="." unique_id=783863098 instance=ExtResource("3_57sak")]
 texture_filter = 2
 offset_left = 48.0
 offset_right = 48.0
 
-[node name="LevelUpSound" type="AudioStreamPlayer2D" parent="."]
+[node name="LevelUpSound" type="AudioStreamPlayer2D" parent="." unique_id=87940060]
 process_mode = 3
 stream = ExtResource("5_sq107")
 
-[node name="ClickSound" type="AudioStreamPlayer2D" parent="."]
+[node name="ClickSound" type="AudioStreamPlayer2D" parent="." unique_id=341515221]
 process_mode = 3
 stream = ExtResource("6_pdnbn")
 
-[connection signal="AttackFired" from="." to="ReloadBar" method="_on_archer_attack_fired"]
-[connection signal="AttackReady" from="." to="ReloadBar" method="_on_archer_attack_ready"]
+[connection signal="AttackFired" from="." to="TextureProgressBar" method="_on_archer_attack_fired"]
+[connection signal="AttackReady" from="." to="TextureProgressBar" method="_on_archer_attack_ready"]
 [connection signal="LevelUp" from="." to="." method="_on_level_up"]
 [connection signal="animation_finished" from="WeaponSprite" to="." method="_on_weapon_sprite_animation_finished"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

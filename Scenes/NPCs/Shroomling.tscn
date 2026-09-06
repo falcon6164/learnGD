@@ -1,6 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://bu4uutr0rn6nq"]
+[gd_scene format=3 uid="uid://bu4uutr0rn6nq"]
 
-[ext_resource type="Script" path="res://Scripts/Shroomling.gd" id="1_qllcg"]
+[ext_resource type="Script" uid="uid://cmcycxuj8p0gn" path="res://Scripts/Shroomling.gd" id="1_qllcg"]
 [ext_resource type="Texture2D" uid="uid://7n7m0u5e241" path="res://Sprites/Cute_Fantasy_Characters/Cute_Fantasy_ShroomLands/Shroomlings/Blue_Shroomling.png" id="2_om4p2"]
 [ext_resource type="AudioStream" uid="uid://bjedfaor0owuy" path="res://Sounds/dragon-studio-bone-break-sfx-393835.mp3" id="3_nsxlk"]
 [ext_resource type="AudioStream" uid="uid://hf7fol1d4quj" path="res://Sounds/freesoundsxx-bone-break-sound-269658.mp3" id="4_ryblt"]
@@ -101,7 +101,7 @@ animations = [{
 "duration": 0.8,
 "texture": SubResource("AtlasTexture_srliu")
 }],
-"loop": true,
+"loop": 1,
 "name": &"attack",
 "speed": 7.0
 }, {
@@ -118,7 +118,7 @@ animations = [{
 "duration": 99.0,
 "texture": SubResource("AtlasTexture_vrb8m")
 }],
-"loop": true,
+"loop": 1,
 "name": &"dead",
 "speed": 7.0
 }, {
@@ -129,7 +129,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_er65v")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 3.0
 }, {
@@ -152,7 +152,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_at6ru")
 }],
-"loop": true,
+"loop": 1,
 "name": &"move",
 "speed": 5.0
 }]
@@ -160,7 +160,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2xvuy"]
 size = Vector2(10.5, 11.25)
 
-[node name="Shroomling" type="CharacterBody2D" groups=["Enemy", "GroundEnemy"]]
+[node name="Shroomling" type="CharacterBody2D" unique_id=271660547 groups=["Enemy", "GroundEnemy"]]
 position = Vector2(2, -8)
 scale = Vector2(2, 2)
 collision_layer = 2
@@ -168,32 +168,32 @@ collision_mask = 9
 script = ExtResource("1_qllcg")
 Gold = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=856362402]
 position = Vector2(-0.75, 4.25)
 shape = SubResource("RectangleShape2D_vn56m")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1338019233]
 texture_filter = 1
 position = Vector2(-1, -5)
 sprite_frames = SubResource("SpriteFrames_j784g")
 animation = &"idle"
 frame_progress = 0.739864
 
-[node name="HurtBox" type="Area2D" parent="."]
+[node name="HurtBox" type="Area2D" parent="." unique_id=1084984862]
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1509019522]
 position = Vector2(-0.75, 4.125)
 shape = SubResource("RectangleShape2D_2xvuy")
 
-[node name="QueueFreeTimer" type="Timer" parent="."]
+[node name="QueueFreeTimer" type="Timer" parent="." unique_id=1878193934]
 wait_time = 3.0
 
-[node name="SoundHurt" type="AudioStreamPlayer2D" parent="."]
+[node name="SoundHurt" type="AudioStreamPlayer2D" parent="." unique_id=458551381]
 stream = ExtResource("3_nsxlk")
 
-[node name="SoundDead" type="AudioStreamPlayer2D" parent="."]
+[node name="SoundDead" type="AudioStreamPlayer2D" parent="." unique_id=176826966]
 stream = ExtResource("4_ryblt")
 volume_db = -6.149
 

@@ -20,7 +20,7 @@ const UPGRADES = {
 		"Repair": {
 		"icon": "res://Sprites/Cute_Fantasy_Characters/Tiles/Cute_Fantasy_UI/UI/Repair.png", 
 		"displayname": "Repair", 
-		"description": "\"I want this to be fixed by tomorrow morning, soldier! Chop chop!\"", 
+		"description": "\"I want this to fixed ASAP! Chop chop!\"", 
 		"Level": "Lv1",
 		"Value": 1,
 		"prerequisite": []

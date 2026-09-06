@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cf7l8a8g4nmab"]
+[gd_scene format=3 uid="uid://cf7l8a8g4nmab"]
 
-[ext_resource type="Script" path="res://Scenes/leveling_ui.gd" id="1_lkx4n"]
+[ext_resource type="Script" uid="uid://ca5pvy12avc7c" path="res://Scenes/leveling_ui.gd" id="1_lkx4n"]
 
-[node name="LevelingUI" type="Control" groups=["Leveling_UI"]]
+[node name="LevelingUI" type="Control" unique_id=398774431 groups=["Leveling_UI"]]
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -14,7 +14,7 @@ mouse_filter = 1
 script = ExtResource("1_lkx4n")
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1574421187]
 layout_mode = 0
 offset_left = 232.0
 offset_top = 82.0
@@ -23,7 +23,7 @@ offset_bottom = 544.0
 mouse_filter = 1
 color = Color(1, 1, 1, 0.756863)
 
-[node name="OptionsContainer" type="HBoxContainer" parent="."]
+[node name="OptionsContainer" type="HBoxContainer" parent="." unique_id=412037994]
 layout_mode = 0
 offset_left = 274.0
 offset_top = 143.0
@@ -31,4 +31,4 @@ offset_right = 894.0
 offset_bottom = 507.0
 alignment = 1
 
-[node name="LevelupSound" type="AudioStreamPlayer2D" parent="."]
+[node name="LevelupSound" type="AudioStreamPlayer2D" parent="." unique_id=747346444]

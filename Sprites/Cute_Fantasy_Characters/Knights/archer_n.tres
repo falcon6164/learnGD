@@ -1,0 +1,8 @@
+[gd_resource type="CanvasTexture" format=3 uid="uid://rvmwo5votl4q"]
+
+[ext_resource type="Texture2D" uid="uid://d3p7ui3d67bhc" path="res://Sprites/Cute_Fantasy_Characters/Knights/Archer.png" id="1_tmrpo"]
+[ext_resource type="Texture2D" uid="uid://bjv2g6ofypk4o" path="res://Sprites/Cute_Fantasy_Characters/Knights/Archer_n.png" id="2_620po"]
+
+[resource]
+diffuse_texture = ExtResource("1_tmrpo")
+normal_texture = ExtResource("2_620po")
